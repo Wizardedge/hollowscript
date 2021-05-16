@@ -1,3 +1,2 @@
 # hollowscript
-
-hollow script
+正規IDスクリプト
