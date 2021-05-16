@@ -1,0 +1,3 @@
+# hollowscript
+
+hollow script
