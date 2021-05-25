@@ -104,7 +104,7 @@ function c27870337.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(27870337,3))
 		local g2=Duel.SelectMatchingCard(tp,c27870337.toexfilter2,tp,LOCATION_PZONE,0,1,1,nil)
 		g1:Merge(g2)
-		if Duel.SendtoExtraP(g1,tp,REASON_EFFECT)~=0 then
+		if Duel.SendtoExtraP(g1,tp,REASON_EFFECT)==2 then
 			local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 			Duel.Draw(p,d,REASON_EFFECT)
 		end
