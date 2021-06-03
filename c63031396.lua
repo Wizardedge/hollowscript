@@ -13,7 +13,7 @@ function c63031396.initial_effect(c)
 	Duel.AddCustomActivityCounter(63031396,ACTIVITY_SPSUMMON,c63031396.counterfilter)
 end
 function c63031396.counterfilter(c)
-	return not c:IsSummonLocation(LOCATION_EXTRA) or c:IsRace(RACE_MACHINE)
+	return not c:GetSummonLocation()~=LOCATION_EXTRA or c:IsRace(RACE_MACHINE)
 end
 function c63031396.costfilter(c)
 	return c:IsRace(RACE_DRAGON+RACE_MACHINE) and c:IsSetCard(0x93) and c:IsAbleToGraveAsCost()
