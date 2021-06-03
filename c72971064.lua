@@ -67,7 +67,7 @@ function c72971064.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c72971064.recon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return rp==1-tp and c:IsPreviousControler(tp)
+	return rp==1-tp and c:GetPreviousControler()==tp
 end
 function c72971064.filter2(c)
 	return c:IsSetCard(0xf7) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()

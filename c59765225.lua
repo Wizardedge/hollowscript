@@ -88,7 +88,7 @@ function c59765225.disop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c59765225.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and rp==1-tp and c:IsPreviousControler(tp)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and rp==1-tp and c:GetPreviousControler()==tp
 end
 function c59765225.thfilter(c)
 	return c:IsAttribute(ATTRIBUTE_WIND) and c:IsAbleToHand()
