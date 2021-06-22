@@ -80,7 +80,7 @@ function c95886782.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end
 function c95886782.cfilter(c,tp)
-	return c:IsSummonPlayer(1-tp)
+	return c:GetSummonPlayer()==1-tp
 end
 function c95886782.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return re and re:IsActivated() and e:GetOwnerPlayer()==1-re:GetOwnerPlayer() and eg:IsExists(c95886782.cfilter,1,nil,tp)
