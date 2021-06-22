@@ -31,9 +31,10 @@ function c60514625.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c60514625.tkcon(e,tp,eg,ep,ev,re,r,rp)
+	local p=Duel.GetTurnPlayer()
 	if #eg~=1 then return false end
 	local tc=eg:GetFirst()
-	return tc:IsSummonPlayer(Duel.GetTurnPlayer())
+	return tc:GetSummonPlayer()==p
 end
 function c60514625.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
