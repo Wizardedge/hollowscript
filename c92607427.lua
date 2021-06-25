@@ -24,7 +24,7 @@ function c92607427.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c92607427.filter(c)
-    return c:IsFaceup() and c:GetSummonLocation()==LOCATION_EXTRA and c:IsAttribute(ATTRIBUTE_DARK)
+	return c:IsFaceup() and c:GetSummonLocation()==LOCATION_EXTRA and c:IsAttribute(ATTRIBUTE_DARK)
 end
 function c92607427.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c92607427.filter(chkc) end
@@ -60,9 +60,7 @@ function c92607427.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return aux.bdgcon(e,tp,eg,ep,ev,re,r,rp) and e:GetHandler():IsChainAttackable(0)
 end
 function c92607427.atkop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.SelectEffectYesNo(tp,e:GetHandler(),aux.Stringid(92607427,2)) then
-		Duel.ChainAttack()
-	end
+	Duel.ChainAttack()
 end
 function c92607427.cfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_FAIRY)
