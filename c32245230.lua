@@ -30,7 +30,7 @@ function c32245230.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c32245230.cfilter(c,tp)
-	return c:IsPreviousControler(tp) and c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_ONFIELD)
+	return c:GetPreviousControler()==tp and c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:IsPreviousLocation(LOCATION_ONFIELD)
 end
 function c32245230.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if eg:IsExists(c32245230.cfilter,1,nil,tp) then
@@ -38,7 +38,7 @@ function c32245230.ctop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c32245230.cfilter2(c,tp)
-	return c:IsSummonLocation(LOCATION_EXTRA) and c:IsSummonPlayer(1-tp)
+	return c:GetSummonLocation()==LOCATION_EXTRA and c:GetSummonPlayer()==1-tp
 end
 function c32245230.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c32245230.cfilter2,1,nil,tp)
