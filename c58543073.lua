@@ -58,7 +58,7 @@ end
 function c58543073.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c58543073.lvfilter(chkc) end
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,58543073,0x2016,0x1011,0,0,1,RACE_MACHINE,ATTRIBUTE_WIND)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,58543073,0x2016,TYPES_NORMAL_TRAP_MONSTER+TYPE_TUNER,0,0,1,RACE_MACHINE,ATTRIBUTE_WIND)
 		and Duel.IsExistingTarget(c58543073.lvfilter,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	Duel.SelectTarget(tp,c58543073.lvfilter,tp,LOCATION_MZONE,0,1,1,nil)
@@ -75,7 +75,7 @@ function c58543073.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e1)
 		if c:IsRelateToEffect(e) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-			and Duel.IsPlayerCanSpecialSummonMonster(tp,58543073,0x2016,0x1011,0,0,1,RACE_MACHINE,ATTRIBUTE_WIND)~=0 then
+			and Duel.IsPlayerCanSpecialSummonMonster(tp,58543073,0x2016,TYPES_NORMAL_TRAP_MONSTER+TYPE_TUNER,0,0,1,RACE_MACHINE,ATTRIBUTE_WIND)~=0 then
 			c:AddMonsterAttribute(TYPE_NORMAL+TYPE_TUNER)
 			Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)
 		end

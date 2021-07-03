@@ -77,11 +77,11 @@ end
 function c27993919.cfilter(c,e,tp)
 	return (c:IsControler(tp) or c:IsFaceup()) and Duel.GetMZoneCount(tp,c)>0
 		and c:IsSetCard(0x162) and c:IsType(TYPE_PENDULUM)
-		and Duel.IsExistingMatchingCard(c27993919.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetLeftScale())
+		and Duel.IsExistingMatchingCard(c27993919.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,c:GetCurrentScale())
 end
 function c27993919.spfilter(c,e,tp,sc)
 	return c:IsSetCard(0x162) and c:IsType(TYPE_MONSTER) and not c:IsCode(27993919)
-		and math.abs(c:GetLeftScale()-sc)==2 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+		and math.abs(c:GetCurrentScale()-sc)==2 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c27993919.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroup(tp,c27993919.cfilter,1,nil,e,tp) end
@@ -92,14 +92,14 @@ function c27993919.spop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectReleaseGroup(tp,c27993919.cfilter,1,1,nil,e,tp)
 	if Duel.Release(g,REASON_EFFECT)>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local sg=Duel.SelectMatchingCard(tp,c27993919.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,g:GetFirst():GetLeftScale())
+		local sg=Duel.SelectMatchingCard(tp,c27993919.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,g:GetFirst():GetCurrentScale())
 		if sg:GetCount()>0 then
 			Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
 		end
 	end
 end
 function c27993919.pfilter(c)
-	return c:GetLeftScale()%2~=0
+	return c:GetCurrentScale()%2~=0
 end
 function c27993919.actcon2(e)
 	local a=Duel.GetAttacker()

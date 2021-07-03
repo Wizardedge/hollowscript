@@ -91,7 +91,7 @@ function c91598270.srop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c91598270.pfilter(c)
-	return c:GetLeftScale()%2==0
+	return c:GetCurrentScale()%2==0
 end
 function c91598270.actcon(e)
 	local a=Duel.GetAttacker()

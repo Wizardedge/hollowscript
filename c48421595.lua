@@ -1,13 +1,7 @@
 --ネクロ・シンクロン
 function c48421595.initial_effect(c)
 	--code
-	local e0=Effect.CreateEffect(c)
-	e0:SetType(EFFECT_TYPE_SINGLE)
-	e0:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e0:SetCode(EFFECT_CHANGE_CODE)
-	e0:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
-	e0:SetValue(19642774)
-	c:RegisterEffect(e0)
+	aux.EnableChangeCode(c,19642774,LOCATION_MZONE+LOCATION_GRAVE)
 	--lv up
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(48421595,0))

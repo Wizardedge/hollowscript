@@ -13,19 +13,19 @@ function c27870337.pendfilter(c)
 	return c:IsSetCard(0x162) and c:IsType(TYPE_PENDULUM) and not c:IsForbidden()
 end
 function c27870337.pendfilter1(c)
-	return c27870337.pendfilter(c) and c:GetLeftScale()%2~=0
+	return c27870337.pendfilter(c) and c:GetCurrentScale()%2~=0
 end
 function c27870337.pendfilter2(c)
-	return c27870337.pendfilter(c) and c:GetLeftScale()%2==0
+	return c27870337.pendfilter(c) and c:GetCurrentScale()%2==0
 end
 function c27870337.toexfilter(c)
 	return c:IsSetCard(0x162) and c:IsType(TYPE_PENDULUM)
 end
 function c27870337.toexfilter1(c)
-	return c:GetLeftScale()%2~=0
+	return c:GetCurrentScale()%2~=0
 end
 function c27870337.toexfilter2(c)
-	return c:GetLeftScale()%2==0
+	return c:GetCurrentScale()%2==0
 end
 function c27870337.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=Duel.IsExistingMatchingCard(c27870337.pendfilter,tp,LOCATION_DECK,0,1,nil)
@@ -81,7 +81,7 @@ function c27870337.activate(e,tp,eg,ep,ev,re,r,rp)
 	elseif sel==1 then
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(27870337,3))
 		local g=Duel.SelectMatchingCard(tp,c27870337.toexfilter,tp,LOCATION_HAND,0,1,1,nil)
-		if g:GetCount()>0 and Duel.SendtoExtraP(g,tp,REASON_EFFECT)~=0   and Duel.CheckLocation(tp,LOCATION_PZONE,0) and Duel.CheckLocation(tp,LOCATION_PZONE,1) then
+		if g:GetCount()>0 and Duel.SendtoExtraP(g,tp,REASON_EFFECT)~=0 then
 			local g1=Duel.GetMatchingGroup(c27870337.pendfilter1,tp,LOCATION_DECK,0,nil)
 			local g2=Duel.GetMatchingGroup(c27870337.pendfilter2,tp,LOCATION_DECK,0,nil)
 			if g1:GetCount()>0 and g2:GetCount()>0 then
@@ -99,13 +99,12 @@ function c27870337.activate(e,tp,eg,ep,ev,re,r,rp)
 			end
 		end
 	else
-		if (Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1)) then return end
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(27870337,3))
 		local g1=Duel.SelectMatchingCard(tp,c27870337.toexfilter1,tp,LOCATION_PZONE,0,1,1,nil)
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(27870337,3))
 		local g2=Duel.SelectMatchingCard(tp,c27870337.toexfilter2,tp,LOCATION_PZONE,0,1,1,nil)
 		g1:Merge(g2)
-		if Duel.SendtoExtraP(g1,tp,REASON_EFFECT)==2 then
+		if Duel.SendtoExtraP(g1,tp,REASON_EFFECT)~=0 then
 			local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 			Duel.Draw(p,d,REASON_EFFECT)
 		end

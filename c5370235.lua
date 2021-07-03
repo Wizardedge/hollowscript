@@ -67,11 +67,18 @@ function c5370235.thop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetValue(aux.FilterBoolFunction(Card.IsType,TYPE_FUSION))
 	Duel.RegisterEffect(e2,tp)
 end
-function c5370235.exfilter(c,e)
-	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and ((c:IsAbleToRemove() and c:IsLocation(LOCATION_GRAVE)) or c:IsAbleToGrave()) and not c:IsImmuneToEffect(e)
+function c5370235.exfilter1(c,e)
+	return c:IsType(TYPE_MONSTER) and c:IsAbleToGrave() and not c:IsImmuneToEffect(e) and c:IsCanBeFusionMaterial()
+end
+function c5370235.exfilter2(c,e)
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and c:IsLocation(LOCATION_GRAVE)
 end
 function c5370235.chain_target(e,te,tp)
-	return Duel.GetMatchingGroup(c5370235.exfilter,tp,LOCATION_GRAVE,0,nil,te)
+	local g1=Duel.GetMatchingGroup(c5370235.exfilter1,tp,LOCATION_ONFIELD+LOCATION_HAND,0,nil,te)
+	local g2=Duel.GetMatchingGroup(c5370235.exfilter2,tp,LOCATION_GRAVE,0,nil,te)
+	if g1 and g2 then
+	g1:Merge(g2) end
+	return g1
 end
 function c5370235.chain_operation(e,te,tp,tc,mat,sumtype)
 	if not sumtype then sumtype=SUMMON_TYPE_FUSION end

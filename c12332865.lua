@@ -16,7 +16,7 @@ function c12332865.initial_effect(c)
 end
 function c12332865.filter(c,tp)
 	return c:GetOriginalAttribute()==ATTRIBUTE_EARTH and c:GetOriginalRace()==RACE_FAIRY
-		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE) and c:GetPreviousControler()==tp
+		and c:IsPreviousLocation(LOCATION_HAND+LOCATION_MZONE) and c:IsPreviousControler(tp)
 end
 function c12332865.condition(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c12332865.filter,1,nil,tp)

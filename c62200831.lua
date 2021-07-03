@@ -22,7 +22,7 @@ function c62200831.initial_effect(c)
 	c:RegisterEffect(e3)
 	--pay and spsummon
 	local e4=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(62200831,2))
+	e4:SetDescription(aux.Stringid(62200831,2))
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e4:SetCode(EVENT_TO_GRAVE)
@@ -35,7 +35,7 @@ function c62200831.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c62200831.cfilter(c,tp)
-	return c:IsFaceup() and c:IsSetCard(0x166) and c:GetSummonPlayer()==tp
+	return c:IsFaceup() and c:IsSetCard(0x166) and c:IsSummonPlayer(tp)
 end
 function c62200831.dtcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c62200831.cfilter,1,nil,tp)
@@ -55,8 +55,8 @@ function c62200831.dtop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c62200831.cfilter2(c,tp)
-	return c:GetSummonLocation()==LOCATION_EXTRA and c:IsPreviousSetCard(0x166) and c:GetReasonPlayer()==1-tp
-		and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP)
+	return c:IsSummonLocation(LOCATION_EXTRA) and c:IsPreviousSetCard(0x166) and c:GetReasonPlayer()==1-tp
+		and c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP)
 end
 function c62200831.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c62200831.cfilter2,1,nil,tp)
