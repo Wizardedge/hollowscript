@@ -98,7 +98,7 @@ function c27693363.rfilter(c,tp)
 	return c:IsLevelAbove(7) and (c:IsControler(tp) or c:IsFaceup())
 end
 function c27693363.excostfilter(c,tp)
-	return c:IsAbleToRemove() and (c:IsHasEffect(89264428,tp) or c:IsHasEffect(16471775,tp) or c:IsHasEffect(101106066,tp))
+	return c:IsAbleToRemove() and (c:IsHasEffect(89264428,tp) or c:IsHasEffect(16471775,tp))
 end
 function c27693363.costfilter(c,e,tp)
 	local check=Duel.GetMZoneCount(tp,c)>0
@@ -116,7 +116,7 @@ function c27693363.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 	local rg=g1:FilterSelect(tp,c27693363.costfilter,1,1,nil,e,tp)
 	local tc=rg:GetFirst()
-	local te=tc:IsHasEffect(16471775,tp) or tc:IsHasEffect(89264428,tp) or tc:IsHasEffect(101106066,tp)
+	local te=tc:IsHasEffect(16471775,tp) or tc:IsHasEffect(89264428,tp)
 	if te then
 		te:UseCountLimit(tp)
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT+REASON_REPLACE)

@@ -34,7 +34,7 @@ function c29537493.rfilter(c,tp)
 	return c:IsLevelAbove(7) and (c:IsControler(tp) and c:IsLocation(LOCATION_HAND) or c:IsFaceup() and c:IsControler(1-tp))
 end
 function c29537493.excostfilter(c,tp)
-	return c:IsAbleToRemove() and (c:IsHasEffect(89264428,tp) or c:IsHasEffect(16471775,tp) or c:IsHasEffect(101106066,tp))
+	return c:IsAbleToRemove() and (c:IsHasEffect(89264428,tp) or c:IsHasEffect(16471775,tp))
 end
 function c29537493.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g1=Duel.GetReleaseGroup(tp,true):Filter(c29537493.rfilter,e:GetHandler(),tp)
@@ -43,7 +43,7 @@ function c29537493.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return g1:GetCount()>0 end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 	local tc=g1:Select(tp,1,1,nil):GetFirst()
-	local te=tc:IsHasEffect(16471775,tp) or tc:IsHasEffect(89264428,tp) or tc:IsHasEffect(101106066,tp)
+	local te=tc:IsHasEffect(16471775,tp) or tc:IsHasEffect(89264428,tp)
 	if te then
 		te:UseCountLimit(tp)
 		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT+REASON_REPLACE)
