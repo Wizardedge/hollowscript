@@ -38,7 +38,7 @@ function c96026108.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g1=Duel.GetReleaseGroup(tp,true):Filter(c96026108.costfilter,e:GetHandler(),tp)
 	local g2=Duel.GetMatchingGroup(c96026108.excostfilter,tp,LOCATION_GRAVE,0,nil,tp)
 	g1:Merge(g2)
-	if chk==0 then return Duel.GetCustomActivityCount(60037599,tp,ACTIVITY_SPSUMMON)==0
+	if chk==0 then return Duel.GetCustomActivityCount(96026108,tp,ACTIVITY_SPSUMMON)==0
 		and g1:GetCount()>0 end
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
