@@ -1,21 +1,9 @@
 --ベアルクティ－メガポーラ
-
---Scripted by mallu11
 function c28715905.initial_effect(c)
 	--spsummon
-	local e1=Effect.CreateEffect(c)
+	local e1=aux.AddUrsarcticSpSummonEffect(c)
 	e1:SetDescription(aux.Stringid(28715905,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e1:SetType(EFFECT_TYPE_QUICK_O)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetRange(LOCATION_HAND)
 	e1:SetCountLimit(1,28715905)
-	e1:SetHintTiming(0,TIMINGS_CHECK_MONSTER+TIMING_MAIN_END)
-	e1:SetCondition(c28715905.spcon)
-	e1:SetCost(c28715905.spcost)
-	e1:SetTarget(c28715905.sptg)
-	e1:SetOperation(c28715905.spop)
-	c:RegisterEffect(e1)
 	--destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(28715905,1))
@@ -23,57 +11,11 @@ function c28715905.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
-	e2:SetCountLimit(1,28715905+1)
+	e2:SetCountLimit(1,28715906)
 	e2:SetCondition(c28715905.descon)
 	e2:SetTarget(c28715905.destg)
 	e2:SetOperation(c28715905.desop)
 	c:RegisterEffect(e2)
-end
-function c28715905.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
-end
-function c28715905.rfilter(c,tp)
-	return c:IsLevelAbove(7) and (c:IsControler(tp) and c:IsLocation(LOCATION_HAND) or c:IsFaceup() and c:IsControler(1-tp))
-end
-function c28715905.excostfilter(c,tp)
-	return c:IsAbleToRemove() and (c:IsHasEffect(89264428,tp) or c:IsHasEffect(16471775,tp))
-end
-function c28715905.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g1=Duel.GetReleaseGroup(tp,true):Filter(c28715905.rfilter,e:GetHandler(),tp)
-	local g2=Duel.GetMatchingGroup(c28715905.excostfilter,tp,LOCATION_GRAVE,0,nil,tp)
-	g1:Merge(g2)
-	if chk==0 then return g1:GetCount()>0 end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	tc=g1:Select(tp,1,1,nil):GetFirst()
-	local te=tc:IsHasEffect(16471775,tp) or tc:IsHasEffect(89264428,tp)
-	if te then
-		te:UseCountLimit(tp)
-		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT+REASON_REPLACE)
-	else
-		Duel.Release(tc,REASON_COST)
-	end
-end
-function c28715905.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
-end
-function c28715905.spop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) then
-		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
-	end
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-	e1:SetTargetRange(1,0)
-	e1:SetTarget(c28715905.splimit)
-	e1:SetReset(RESET_PHASE+PHASE_END)
-	Duel.RegisterEffect(e1,tp)
-end
-function c28715905.splimit(e,c)
-	return c:IsLevel(0)
 end
 function c28715905.confilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x163)
