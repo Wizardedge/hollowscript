@@ -1,6 +1,4 @@
 --ベアルクティ－ポラリィ
-
---Scripted by mallu11
 function c27693363.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon condition
@@ -31,10 +29,10 @@ function c27693363.initial_effect(c)
 	--to hand/spsummon
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(27693363,1))
-	e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SPECIAL_SUMMON)
+	e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SPECIAL_SUMMON+CATEGORY_GRAVE_ACTION+CATEGORY_GRAVE_SPSUMMON)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetCountLimit(1,27693363+1)
+	e4:SetCountLimit(1,27693364)
 	e4:SetCost(c27693363.thcost)
 	e4:SetTarget(c27693363.thtg)
 	e4:SetOperation(c27693363.thop)
@@ -50,7 +48,10 @@ function c27693363.mnfilter2(c,mc)
 	return c:GetLevel()-mc:GetLevel()==1
 end
 function c27693363.fselect(g,tp,sc)
-	return g:GetCount()==2 and g:IsExists(Card.IsType,1,nil,TYPE_TUNER) and g:IsExists(aux.NOT(Card.IsType),1,nil,TYPE_TUNER) and g:IsExists(c27693363.mnfilter,1,nil,g) and Duel.GetLocationCountFromEx(tp,tp,g,sc)>0
+	return g:GetCount()==2
+		and g:IsExists(Card.IsType,1,nil,TYPE_TUNER) and g:IsExists(aux.NOT(Card.IsType),1,nil,TYPE_TUNER)
+		and g:IsExists(c27693363.mnfilter,1,nil,g)
+		and Duel.GetLocationCountFromEx(tp,tp,g,sc)>0
 end
 function c27693363.sprcon(e,c)
 	if c==nil then return true end
@@ -69,18 +70,13 @@ function c27693363.actfilter(c,tp)
 end
 function c27693363.acttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c27693363.actfilter,tp,LOCATION_DECK,0,1,nil,tp) end
-	if not Duel.CheckPhaseActivity() then e:SetLabel(1) else e:SetLabel(0) end
 end
 function c27693363.actop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_OPERATECARD)
-	if e:GetLabel()==1 then Duel.RegisterFlagEffect(tp,15248873,RESET_CHAIN,0,1) end
 	local g=Duel.SelectMatchingCard(tp,c27693363.actfilter,tp,LOCATION_DECK,0,1,1,nil,tp)
-	Duel.ResetFlagEffect(tp,15248873)
 	local tc=g:GetFirst()
 	if tc then
 		local te=tc:GetActivateEffect()
-		if e:GetLabel()==1 then Duel.RegisterFlagEffect(tp,15248873,RESET_CHAIN,0,1) end
-		Duel.ResetFlagEffect(tp,15248873)
 		local fc=Duel.GetFieldCard(tp,LOCATION_FZONE,0)
 		if fc then
 			Duel.SendtoGrave(fc,REASON_RULE)
@@ -98,7 +94,7 @@ function c27693363.rfilter(c,tp)
 	return c:IsLevelAbove(7) and (c:IsControler(tp) or c:IsFaceup())
 end
 function c27693363.excostfilter(c,tp)
-	return c:IsAbleToRemove() and (c:IsHasEffect(89264428,tp) or c:IsHasEffect(16471775,tp))
+	return c:IsAbleToRemove() and (c:IsHasEffect(16471775,tp) or c:IsHasEffect(89264428,tp))
 end
 function c27693363.costfilter(c,e,tp)
 	local check=Duel.GetMZoneCount(tp,c)>0
@@ -127,8 +123,6 @@ function c27693363.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c27693363.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c27693363.tgfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,true) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE)
 end
 function c27693363.thop(e,tp,eg,ep,ev,re,r,rp)
 	local check=Duel.GetLocationCount(tp,LOCATION_MZONE)>0
