@@ -31,10 +31,9 @@ function c60514625.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c60514625.tkcon(e,tp,eg,ep,ev,re,r,rp)
-	local p=Duel.GetTurnPlayer()
 	if #eg~=1 then return false end
 	local tc=eg:GetFirst()
-	return tc:GetSummonPlayer()==p
+	return tc:IsSummonPlayer(Duel.GetTurnPlayer())
 end
 function c60514625.tktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -48,11 +47,11 @@ function c60514625.tkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=eg:GetFirst()
 	local p=tc:GetControler()
-	local atk=tc:GetAttack()
-	local def=tc:GetDefense()
 	if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0
 		and Duel.GetLocationCount(p,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(p,60514626,0,0x4011,-2,-2,1,RACE_SPELLCASTER,ATTRIBUTE_DARK) then
+		and Duel.IsPlayerCanSpecialSummonMonster(p,60514626,0,TYPES_TOKEN_MONSTER,-2,-2,1,RACE_SPELLCASTER,ATTRIBUTE_DARK) then
+		local atk=tc:GetAttack()
+		local def=tc:GetDefense()
 		local token=Duel.CreateToken(tp,60514626)
 		Duel.SpecialSummonStep(token,0,p,p,false,false,POS_FACEUP)
 		local e1=Effect.CreateEffect(c)

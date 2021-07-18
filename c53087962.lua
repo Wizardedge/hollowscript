@@ -1,6 +1,4 @@
 --ベアルクティ－セプテン＝トリオン
-
---Scripted by mallu11
 function c53087962.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon condition
@@ -33,8 +31,8 @@ function c53087962.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e4:SetProperty(EFFECT_FLAG_DELAY)
-	e4:SetRange(LOCATION_MZONE)
 	e4:SetCountLimit(1,53087962)
+	e4:SetRange(LOCATION_MZONE)
 	e4:SetCondition(c53087962.thcon)
 	e4:SetTarget(c53087962.thtg)
 	e4:SetOperation(c53087962.thop)
@@ -56,7 +54,10 @@ function c53087962.mnfilter2(c,mc)
 	return c:GetLevel()-mc:GetLevel()==7
 end
 function c53087962.fselect(g,tp,sc)
-	return g:GetCount()==2 and g:IsExists(c53087962.tgrfilter1,1,nil) and g:IsExists(c53087962.tgrfilter2,1,nil) and g:IsExists(c53087962.mnfilter,1,nil,g) and Duel.GetLocationCountFromEx(tp,tp,g,sc)>0
+	return g:GetCount()==2
+		and g:IsExists(c53087962.tgrfilter1,1,nil) and g:IsExists(c53087962.tgrfilter2,1,nil)
+		and g:IsExists(c53087962.mnfilter,1,nil,g)
+		and Duel.GetLocationCountFromEx(tp,tp,g,sc)>0
 end
 function c53087962.sprcon(e,c)
 	if c==nil then return true end
@@ -73,11 +74,8 @@ end
 function c53087962.distg(e,c)
 	return c:GetSummonLocation()==LOCATION_EXTRA and c:IsLevel(0)
 end
-function c53087962.cfilter(c,tp)
-	return c:GetSummonPlayer()~=tp
-end
 function c53087962.thcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c53087962.cfilter,1,nil,tp)
+	return eg:IsExists(Card.IsSummonPlayer,1,nil,1-tp)
 end
 function c53087962.thfilter(c)
 	return c:IsSetCard(0x163) and c:IsAbleToHand()
