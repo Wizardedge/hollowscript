@@ -6,7 +6,6 @@ function c75215744.initial_effect(c)
 	--apply the effect
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(75215744,0))
-	e1:SetCategory(CATEGORY_DRAW)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCountLimit(1,75215744)
@@ -37,7 +36,10 @@ function c75215744.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local chk2=c:GetMaterial():FilterCount(Card.IsCode,nil,61027400)>0
 	if chk==0 then return (chk1 and Duel.IsPlayerCanDraw(tp,1) or chk2) end
 	if chk1 then
+		e:SetCategory(CATEGORY_DRAW)
 		Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
+	else
+		e:SetCategory(0)
 	end
 end
 function c75215744.effop(e,tp,eg,ep,ev,re,r,rp)
@@ -48,11 +50,10 @@ function c75215744.effop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Draw(tp,1,REASON_EFFECT)
 	end
 	if chk2 then
+		Duel.BreakEffect()
 		local e1=Effect.CreateEffect(c)
-		e1:SetDescription(aux.Stringid(75215744,2))
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_EXTRA_ATTACK)
-		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 		e1:SetValue(1)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		c:RegisterEffect(e1)
@@ -60,7 +61,7 @@ function c75215744.effop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c75215744.descon(e,tp,eg,ep,ev,re,r,rp)
 	local rc=eg:GetFirst()
-	return ep~=tp and rc:IsControler(tp) and rc:IsSetCard(0x166) and rc:GetSummonLocation()==LOCATION_EXTRA
+	return ep~=tp and rc:IsControler(tp) and rc:IsSetCard(0x166) and rc:IsSummonLocation(LOCATION_EXTRA)
 end
 function c75215744.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(1-tp) and chkc:IsOnField() end
