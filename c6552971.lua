@@ -1,6 +1,4 @@
 --めぐり－Ai－
---When A.I. First Met You
---Scripted by Kohana Sonogami
 function c6552971.initial_effect(c)
 	--search
 	local e1=Effect.CreateEffect(c)
@@ -63,12 +61,9 @@ function c6552971.activate(e,tp,eg,ep,ev,re,r,rp)
 	e3:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e3,tp)
 end
-function c6552971.regfilter(c,tp,code)
-	return c:GetSummonPlayer()==tp and c:IsCode(code)
-end
 function c6552971.regop(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetLabel()==0 then return end
-	if eg:IsExists(c6552971.regfilter,1,nil,tp,e:GetLabel()) then
+	if eg:IsExists(Card.IsCode,1,nil,e:GetLabel()) then
 		e:SetLabel(0)
 	end
 end
@@ -78,7 +73,7 @@ end
 function c6552971.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Damage(tp,2300,REASON_EFFECT)
 end
-function c6552971.actlimit(e,re,rp) 
+function c6552971.actlimit(e,re,rp)
 	local rc=re:GetHandler()
 	return re:IsActiveType(TYPE_MONSTER) and not rc:IsRace(RACE_CYBERSE)
 end

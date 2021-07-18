@@ -17,29 +17,21 @@ function c77625948.initial_effect(c)
 	c:RegisterEffect(e2)
 	--
 	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode(EVENT_BATTLE_START)
-	e3:SetCondition(c77625948.regcon)
-	e3:SetOperation(c77625948.regop)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_SET_ATTACK_FINAL)
+	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetCondition(c77625948.atkcon)
+	e3:SetValue(c77625948.atkval)
 	c:RegisterEffect(e3)
-	--
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_SINGLE)
-	e4:SetCode(EFFECT_SET_ATTACK_FINAL)
-	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e4:SetRange(LOCATION_MZONE)
-	e4:SetCondition(c77625948.atkcon)
-	e4:SetValue(c77625948.atkval)
-	c:RegisterEffect(e4)
 end
 function c77625948.filter(c)
 	return c:IsLevelBelow(3) and c:IsRace(RACE_DRAGON) and not c:IsForbidden()
 end
 function c77625948.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local loc=0
-	if Duel.IsPlayerAffectedByEffect(tp,64753988) then loc=LOCATION_GRAVE end
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and (loc~=0 or chkc:IsControler(tp)) and c77625948.filter(chkc) end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and (chkc:IsControler(tp) or Duel.IsPlayerAffectedByEffect(tp,64753988)) and c77625948.filter(chkc) end
 	if chk==0 then return true end
+	local loc=Duel.IsPlayerAffectedByEffect(tp,64753988) and LOCATION_GRAVE or 0
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 	local g=Duel.SelectTarget(tp,c77625948.filter,tp,LOCATION_GRAVE,loc,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,0,0)
@@ -80,16 +72,11 @@ end
 function c77625948.repval(e,re,r,rp)
 	return bit.band(r,REASON_BATTLE)~=0
 end
-function c77625948.regcon(e,tp,eg,ep,ev,re,r,rp)
-	local tp=e:GetHandlerPlayer()
-	return Duel.GetAttackTarget()==nil and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)~=0
-		and e:GetHandler():GetEffectCount(EFFECT_DIRECT_ATTACK)==1
-end
-function c77625948.regop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RegisterFlagEffect(77625948,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_DAMAGE,0,1)
-end
 function c77625948.atkcon(e)
-	return e:GetHandler():GetFlagEffect(77625948)~=0
+	local tp=e:GetHandlerPlayer()
+	return Duel.GetCurrentPhase()==PHASE_DAMAGE_CAL
+		and Duel.GetAttackTarget()==nil and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)~=0
+		and e:GetHandler():GetEffectCount(EFFECT_DIRECT_ATTACK)==1
 end
 function c77625948.atkval(e,c)
 	return math.ceil(c:GetAttack()/2)

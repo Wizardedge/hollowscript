@@ -1,6 +1,4 @@
 --ベアルクティ－グラン＝シャリオ
---Bearcti - Grand Chariot
---Scripted by Kohana Sonogami
 function c80086070.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon rule
@@ -23,7 +21,7 @@ function c80086070.initial_effect(c)
 	e3:SetDescription(aux.Stringid(80086070,0))
 	e3:SetCategory(CATEGORY_DESTROY)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e3:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
+	e3:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e3:SetTarget(c80086070.destg)
 	e3:SetOperation(c80086070.desop)
@@ -59,7 +57,10 @@ function c80086070.mnfilter2(c,mc)
 	return c:GetLevel()-mc:GetLevel()==7
 end
 function c80086070.fselect(g,tp,sc)
-	return g:GetCount()==2 and g:IsExists(c80086070.tgrfilter1,1,nil) and g:IsExists(c80086070.tgrfilter2,1,nil) and g:IsExists(c80086070.mnfilter,1,nil,g) and Duel.GetLocationCountFromEx(tp,tp,g,sc)>0
+	return g:GetCount()==2
+		and g:IsExists(c80086070.tgrfilter1,1,nil) and g:IsExists(c80086070.tgrfilter2,1,nil)
+		and g:IsExists(c80086070.mnfilter,1,nil,g)
+		and Duel.GetLocationCountFromEx(tp,tp,g,sc)>0
 end
 function c80086070.sprcon(e,c)
 	if c==nil then return true end
@@ -75,7 +76,7 @@ function c80086070.sprop(e,tp,eg,ep,ev,re,r,rp,c)
 end
 function c80086070.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsOnField() end
-	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,e:GetHandler()) end
+	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
 	local dg=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,2,e:GetHandler())
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,dg,dg:GetCount(),0,0)
@@ -96,7 +97,7 @@ function c80086070.negcon(e,tp,eg,ep,ev,re,r,rp)
 	return tg and tg:IsExists(c80086070.negfilter,1,nil,tp) and Duel.IsChainNegatable(ev)
 end
 function c80086070.costfilter(c,tp)
-	return c:IsType(TYPE_MONSTER) --and (c:IsControler(tp) or c:IsFaceup())
+	return c:IsType(TYPE_MONSTER) and (c:IsControler(tp) or c:IsFaceup())
 end
 function c80086070.excostfilter(c,tp)
 	return c:IsAbleToRemove() and (c:IsHasEffect(16471775,tp) or c:IsHasEffect(89264428,tp))
