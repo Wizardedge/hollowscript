@@ -38,20 +38,18 @@ end
 function c72971064.atkval(e,c)
 	return c:GetOverlayCount()*500
 end
-function c72971064.cfilter1(c,tp)
-    return c:GetSummonPlayer()==1-tp
-end
 function c72971064.thcon(e,tp,eg,ep,ev,re,r,rp)
-    return eg:IsExists(c72971064.cfilter1,1,nil,tp)
+	return eg:IsExists(Card.IsSummonPlayer,1,nil,1-tp)
 end
 function c72971064.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) and not e:GetHandler():IsStatus(STATUS_CHAINING) end
+	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c72971064.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local g=eg:Filter(Card.IsAbleToHand,nil):Filter(Card.IsLocation,nil,LOCATION_MZONE)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and aux.IsInGroup(chkc,g) end
-	if chk==0 then return Duel.IsExistingTarget(aux.IsInGroup,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,g) end
+	if chk==0 then return e:GetHandler():GetFlagEffect(72971064)==0 and Duel.IsExistingTarget(aux.IsInGroup,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,g) end
+	e:GetHandler():RegisterFlagEffect(72971064,RESET_CHAIN,0,1)
 	local sg
 	if g:GetCount()==1 then
 		sg=g:Clone()
@@ -70,7 +68,7 @@ function c72971064.thop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c72971064.recon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return rp==1-tp and c:GetPreviousControler()==tp
+	return rp==1-tp and c:IsPreviousControler(tp)
 end
 function c72971064.filter2(c)
 	return c:IsSetCard(0xf7) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()

@@ -43,7 +43,7 @@ function c71036835.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c71036835.cfilter(c,tp)
-	return c:IsControler(tp) and c:GetPreviousControler()==tp and c:IsPreviousSetCard(0xa4)
+	return c:IsControler(tp) and c:IsPreviousControler(tp) and c:IsPreviousSetCard(0xa4)
 end
 function c71036835.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c71036835.cfilter,1,nil,tp)

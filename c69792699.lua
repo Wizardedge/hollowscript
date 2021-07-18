@@ -85,7 +85,7 @@ function c69792699.rthop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c69792699.cfilter(c,tp)
-	return c:GetPreviousControler()==1-tp and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP)
+	return c:IsPreviousControler(1-tp) and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP)
 		and c:IsReason(REASON_EFFECT) and c:IsLocation(LOCATION_HAND+LOCATION_REMOVED)
 end
 function c69792699.negcon(e,tp,eg,ep,ev,re,r,rp)

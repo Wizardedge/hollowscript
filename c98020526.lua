@@ -19,7 +19,7 @@ function c98020526.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c98020526.cfilter(c,tp,rp)
-	return c:GetPreviousControler()==tp and c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD)
+	return c:IsPreviousControler(tp) and c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD)
 		and (c:IsCode(44508094) or c:GetPreviousTypeOnField()&TYPE_SYNCHRO~=0 and aux.IsCodeListed(c,44508094))
 		and c:IsReason(REASON_COST+REASON_EFFECT) and rp==tp
 end
