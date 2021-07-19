@@ -1,6 +1,6 @@
 --鉄獣戦線 キット
 function c56196385.initial_effect(c)
-	--Special Summon a Link Monster
+	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(56196385,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -11,53 +11,52 @@ function c56196385.initial_effect(c)
 	e1:SetTarget(c56196385.sptg)
 	e1:SetOperation(c56196385.spop)
 	c:RegisterEffect(e1)
-	--Send GY
+	--send to grave
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(56196385,1))
 	e2:SetCategory(CATEGORY_TOGRAVE)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCode(EVENT_TO_GRAVE)
-	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e2:SetCountLimit(1,56196386)
 	e2:SetTarget(c56196385.tgtg)
 	e2:SetOperation(c56196385.tgop)
 	c:RegisterEffect(e2)
 end
-function c56196385.rmfilter(c)
+function c56196385.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	e:SetLabel(100)
+	return true
+end
+function c56196385.cfilter(c)
 	return c:IsRace(RACE_BEAST+RACE_BEASTWARRIOR+RACE_WINDBEAST) and c:IsAbleToRemoveAsCost()
 end
-function c56196385.spfilter(c,e,tp,ct)
-	return c:IsRace(RACE_BEAST+RACE_BEASTWARRIOR+RACE_WINDBEAST) and
-	c:IsType(TYPE_LINK) and c:IsLink(ct) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0
+function c56196385.fselect(g,tg)
+	return tg:IsExists(Card.IsLink,1,nil,#g)
 end
-function c56196385.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g=Duel.GetMatchingGroup(c56196385.rmfilter,tp,LOCATION_GRAVE,0,nil)
-	local nums={}
-	for i=1,#g do
-		if Duel.IsExistingMatchingCard(c56196385.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,i) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
-			table.insert(nums,i)
-		end
-	end
-	if chk==0 then return #nums>0 end
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(56196385,2))
-	local ct=Duel.AnnounceNumber(tp,table.unpack(nums))
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local rg=g:Select(tp,ct,ct,c,nums)
-	Duel.Remove(rg,POS_FACEUP,REASON_COST)
-	e:SetLabel(ct)
+function c56196385.spfilter(c,e,tp)
+	return c:IsType(TYPE_LINK) and c:IsRace(RACE_BEAST+RACE_BEASTWARRIOR+RACE_WINDBEAST)
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetLocationCountFromEx(tp,tp,nil,c)>0
 end
 function c56196385.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	local cg=Duel.GetMatchingGroup(c56196385.cfilter,tp,LOCATION_GRAVE,0,nil)
+	local tg=Duel.GetMatchingGroup(c56196385.spfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
+	local _,maxlink=tg:GetMaxGroup(Card.GetLink)
+	if chk==0 then
+		if e:GetLabel()~=100 then return false end
+		e:SetLabel(0)
+		if #tg==0 then return false end
+		return cg:CheckSubGroup(c56196385.fselect,1,maxlink,tg)
 	end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local rg=cg:SelectSubGroup(tp,c56196385.fselect,false,1,maxlink,tg)
+	Duel.Remove(rg,POS_FACEUP,REASON_COST)
+	e:SetLabel(rg:GetCount())
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
+function c56196385.spfilter1(c,e,tp,lk)
+	return c56196385.spfilter(c,e,tp) and c:IsLink(lk)
+end
 function c56196385.spop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local ct=e:GetLabel()
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c56196385.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,ct)
-	local tc=g:GetFirst()
-	if tc and Duel.SpecialSummon(tc,0,tp,tp,true,false,POS_FACEUP)~=0 then
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
@@ -67,6 +66,12 @@ function c56196385.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetValue(c56196385.sumlimit)
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
+	local lk=e:GetLabel()
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,c56196385.spfilter1,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,lk)
+	local tc=g:GetFirst()
+	if tc then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
 function c56196385.sumlimit(e,c)
@@ -83,7 +88,7 @@ end
 function c56196385.tgop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,c56196385.tgfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if #g>0 then
+	if g:GetCount()>0 then
 		Duel.SendtoGrave(g,REASON_EFFECT)
 	end
 end

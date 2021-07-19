@@ -65,14 +65,13 @@ function c66200210.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummonComplete()
 	end
 end
-function c66200210.cfilter(c,ft,tp)
+function c66200210.cfilter(c,tp)
 	return c:IsType(TYPE_TOKEN)
-		and (ft>0 or (c:IsControler(tp) and c:GetSequence()<5))
+		and Duel.GetMZoneCount(tp,c)>0
 end
 function c66200210.spcost2(e,tp,eg,ep,ev,re,r,rp,chk)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return ft>-1 and Duel.CheckReleaseGroup(tp,c66200210.cfilter,1,nil,ft,tp) end
-	local g=Duel.SelectReleaseGroup(tp,c66200210.cfilter,1,1,nil,ft,tp)
+	if chk==0 then return Duel.CheckReleaseGroup(tp,c66200210.cfilter,1,nil,tp) end
+	local g=Duel.SelectReleaseGroup(tp,c66200210.cfilter,1,1,nil,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c66200210.filter(c,e,tp)

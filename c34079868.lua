@@ -42,27 +42,19 @@ function c34079868.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c34079868.rfilter(c,tp)
-	return c:IsControler(tp) or c:IsFaceup()
-end
-function c34079868.sprfilter1(c,tp,g)
-	return c:IsSetCard(0xc7) and g:IsExists(c34079868.sprfilter2,1,c,tp,c)
-end
-function c34079868.sprfilter2(c,tp,mc)
-	local g=Group.FromCards(c,mc)
-	return c:IsSetCard(0xda) and Duel.GetMZoneCount(tp,g)>0
+	return c:IsSetCard(0xc7) and Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,c,0xda)
 end
 function c34079868.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	local rg=Duel.GetReleaseGroup(tp):Filter(c34079868.rfilter,nil,tp)
-	return rg:IsExists(c34079868.sprfilter1,1,nil,tp,rg)
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2
+		and Duel.CheckReleaseGroup(tp,c34079868.rfilter,1,nil,tp)
 end
 function c34079868.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local rg=Duel.GetReleaseGroup(tp):Filter(c34079868.rfilter,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	local g1=rg:FilterSelect(tp,c34079868.sprfilter1,1,1,nil,tp,rg)
+	local g1=Duel.SelectReleaseGroup(tp,c34079868.rfilter,1,1,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	local g2=rg:FilterSelect(tp,c34079868.sprfilter2,1,1,g1,tp,g1:GetFirst())
+	local g2=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,1,g1:GetFirst(),0xda)
 	g1:Merge(g2)
 	Duel.Release(g1,REASON_COST)
 end

@@ -60,21 +60,21 @@ end
 function c20447641.indtg(e,c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSetCard(0xaa)
 end
-function c20447641.ttfilter(c)
+function c20447641.ttfilter(c,tp)
 	return c:GetOriginalCode()==20447641 and c:IsReleasable() and c:GetFlagEffect(20447641)~=0
+		and Duel.GetMZoneCount(tp,c)>0
 end
 function c20447641.ttcon(e,c,minc)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return minc<=3 and Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
-		and Duel.IsExistingMatchingCard(c20447641.ttfilter,tp,LOCATION_MZONE,0,1,nil)
+	return minc<=3 and Duel.IsExistingMatchingCard(c20447641.ttfilter,tp,LOCATION_MZONE,0,1,nil,tp)
 end
 function c20447641.tttg(e,c)
 	return c:IsSetCard(0x10aa)
 end
 function c20447641.ttop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	local g=Duel.SelectMatchingCard(tp,c20447641.ttfilter,tp,LOCATION_MZONE,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c20447641.ttfilter,tp,LOCATION_MZONE,0,1,1,nil,tp)
 	c:SetMaterial(g)
 	Duel.Release(g,REASON_SUMMON+REASON_MATERIAL)
 end
