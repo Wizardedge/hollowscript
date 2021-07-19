@@ -60,7 +60,7 @@ function c65877963.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e2,tp)
 end
 function c65877963.regfilter(c,tp)
-	return c:GetSummonPlayer()==tp and c:IsType(TYPE_RITUAL)
+	return c:IsSummonPlayer(tp) and c:IsType(TYPE_RITUAL)
 end
 function c65877963.regop(e,tp,eg,ep,ev,re,r,rp)
 	if eg:IsExists(c65877963.regfilter,1,nil,tp) then
