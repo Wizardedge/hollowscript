@@ -49,29 +49,6 @@ function c6186304.initial_effect(c)
 	e7:SetValue(1)
 	c:RegisterEffect(e7)
 end
-if Auxiliary.AddSetNameMonsterList==nil then
-	function Auxiliary.AddSetNameMonsterList(c,...)
-		if c:IsStatus(STATUS_COPYING_EFFECT) then return end
-		if c.setcode_monster_list==nil then
-			local mt=getmetatable(c)
-			mt.setcode_monster_list={}
-			for i,scode in ipairs{...} do
-				mt.setcode_monster_list[i]=scode
-			end
-		else
-			for i,scode in ipairs{...} do
-				c.setcode_monster_list[i]=scode
-			end
-		end
-	end
-	function Auxiliary.IsSetNameMonsterListed(c,setcode)
-		if not c.setcode_monster_list then return false end
-		for i,scode in ipairs(c.setcode_monster_list) do
-			if setcode&0xfff==scode&0xfff and setcode&scode==setcode then return true end
-		end
-		return false
-	end
-end
 function c6186304.thfilter(c)
 	return c:IsCode(83965310) and c:IsAbleToHand()
 end
