@@ -90,7 +90,7 @@ function c17888577.tgop(e,tp,eg,ep,ev,re,r,rp)
 		local att=tc:GetAttribute()
 		local race=tc:GetRace()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		local g=Duel.SelectMatchingCard(tp,c17888577.tgfilter,tp,LOCATION_DECK,0,1,1,nil,att,race)
+		local g=Duel.SelectMatchingCard(tp,c17888577.tgfilter,tp,LOCATION_DECK,0,1,1,nil,tp,att,race)
 		if g:GetCount()>0 then
 			Duel.SendtoGrave(g,REASON_EFFECT)
 		end
