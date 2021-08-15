@@ -96,7 +96,7 @@ function c37542782.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end
 function c37542782.atkcon(e)
-    return e:GetHandler():GetEquipCount()>=1
+	return e:GetHandler():GetEquipCount()>1
 end
 function c37542782.atkval(e,c)
 	return e:GetHandler():GetEquipCount()-1
