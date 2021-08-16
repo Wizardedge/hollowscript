@@ -53,10 +53,10 @@ end
 function c72064891.exfilter(c)
 	return c:IsLevel(7) and c:IsRace(RACE_DRAGON)
 end
-function c5370235.filter1(c,e)
+function c72064891.filter1(c,e)
 	return c:IsType(TYPE_MONSTER) and c:IsAbleToGrave() and not c:IsImmuneToEffect(e) and c:IsCanBeFusionMaterial()
 end
-function c5370235.filter2(c,e)
+function c72064891.filter2(c,e)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and c:IsLocation(LOCATION_GRAVE)
 end
 function c72064891.chain_target(e,te,tp)
