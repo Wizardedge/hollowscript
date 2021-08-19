@@ -48,8 +48,8 @@ function c58383100.filter(c,tp)
 	return c:IsAbleToGrave() and Duel.GetMZoneCount(tp,c)>0
 end
 function c58383100.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c58383100.filter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler(),tp) end
-	local ec=eg:GetFirst()
+	if chk==0 then return Duel.IsExistingMatchingCard(c58383100.filter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler(),tp) and eg:IsExists(c58383100.cfilter,1,nil,e,tp) and #eg==1 end
+	local ec=eg:Filter(c58383100.cfilter,nil,e,tp):GetFirst()
 	Duel.SetTargetCard(ec)
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND+LOCATION_ONFIELD)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,ec,1,0,0)
