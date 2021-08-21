@@ -71,14 +71,8 @@ function c40591390.indop(e,tp,eg,ep,ev,re,r,rp)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	Duel.RegisterEffect(e2,tp)
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD)
+	local e3=e1:Clone()
 	e3:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e3:SetTargetRange(1,0)
-	e3:SetValue(1)
-	e3:SetReset(RESET_PHASE+PHASE_END)
-	e3:SetCondition(c40591390.damcon)
 	Duel.RegisterEffect(e3,tp)
 end
 function c40591390.vfilter(c)
@@ -87,10 +81,4 @@ end
 function c40591390.val(e,c)
 	local g=Duel.GetMatchingGroup(c40591390.vfilter,c:GetControler(),LOCATION_MZONE,0,c)
 	return g:GetSum(Card.GetBaseAttack)
-end
-function c40591390.cfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xc008)
-end
-function c40591390.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c40591390.cfilter,tp,LOCATION_MZONE,0,1,nil)
 end
