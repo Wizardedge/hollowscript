@@ -64,7 +64,7 @@ function c48589580.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c48589580.costfilter(c,e,tp)
 	local lv=c:GetLevel()
-	return lv>0 and c:IsRace(RACE_FAIRY) and Duel.IsExistingMatchingCard(c48589580.spfilter,tp,LOCATION_HAND,0,1,nil,lv+1,e,tp)
+	return lv>0 and c:IsRace(RACE_FAIRY) and Duel.IsExistingMatchingCard(c48589580.spfilter,tp,LOCATION_HAND,0,1,nil,lv+1,e,tp) and c:IsAbleToRemoveAsCost()
 end
 function c48589580.spfilter(c,lv,e,tp)
 	return c:IsLevelAbove(lv) and c:IsRace(RACE_FAIRY) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
