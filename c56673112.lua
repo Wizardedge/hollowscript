@@ -21,32 +21,50 @@ function c56673112.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsReleasable() end
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
-function c56673112.opfilter(c,e,tp)
-	return (c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e,0,tp,false,false)) and c:IsCode(64788463,25652259,90876561)
+function c56673112.opfilter(c,e,tp,ft)
+	return (c:IsAbleToHand() or (c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) and ft>0)) and c:IsCode(64788463,25652259,90876561)
 end
 function c56673112.opcheck(g,e,tp,spcheck)
 	return g:GetClassCount(Card.GetCode)==2
-		and (g:FilterCount(Card.IsAbleToHand,nil)==2 or g:FilterCount(Card.IsCanBeSpecialSummoned,nil,e,0,tp,false,false)==2)
+	and not (g:FilterCount(Card.IsAbleToHand,nil)<1 and Duel.IsPlayerAffectedByEffect(tp,59822133))
 end
 function c56673112.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local spcheck=Duel.GetMZoneCount(tp,e:GetHandler())>1 and not Duel.IsPlayerAffectedByEffect(tp,59822133)
-		local g=Duel.GetMatchingGroup(c56673112.opfilter,tp,LOCATION_DECK,0,nil,e,tp)
-		return g:CheckSubGroup(c56673112.opcheck,2,2,e,tp,spcheck)
+		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+		local g=Duel.GetMatchingGroup(c56673112.opfilter,tp,LOCATION_DECK,0,nil,e,tp,ft)
+		return g:CheckSubGroup(c56673112.opcheck,2,2,e,tp)
 	end
 end
 function c56673112.spop(e,tp,eg,ep,ev,re,r,rp)
 	local spcheck=Duel.GetLocationCount(tp,LOCATION_MZONE)>1 and not Duel.IsPlayerAffectedByEffect(tp,59822133)
-	local g=Duel.GetMatchingGroup(c56673112.opfilter,tp,LOCATION_DECK,0,nil,e,tp)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	local g=Duel.GetMatchingGroup(c56673112.opfilter,tp,LOCATION_DECK,0,nil,e,tp,ft)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_OPERATECARD)
 	local sg=g:SelectSubGroup(tp,c56673112.opcheck,false,2,2,e,tp,spcheck)
 	if not sg then return end
-	local tgc=sg:FilterCount(Card.IsAbleToHand,nil)
-	local sgc=sg:FilterCount(Card.IsCanBeSpecialSummoned,nil,e,0,tp,false,false)
-	if tgc==2 and (sgc~=2 or not spcheck or Duel.SelectOption(tp,1190,1152)==0) then
-		Duel.SendtoHand(sg,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,sg)
-	else
-		Duel.SpecialSummon(sg,0,tp,tp,false,false,POS_FACEUP)
+	local spchk=0
+	local th=Group.CreateGroup()
+	local tc=sg:Select(tp,1,1,nil):GetFirst()
+	if tc then
+		if tc:IsAbleToHand() and (not tc:IsCanBeSpecialSummoned(e,0,tp,false,false) or ft<=0 or Duel.SelectOption(tp,1190,1152)==0) then
+			Duel.SendtoHand(tc,nil,REASON_EFFECT)
+			th:AddCard(tc)
+		else
+			Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
+			if Duel.IsPlayerAffectedByEffect(tp,59822133) then spchk=1 end
+		end
 	end
+	local tc=(sg-tc):Select(tp,1,1,nil):GetFirst()
+	if tc then
+		if tc:IsAbleToHand() and (not tc:IsCanBeSpecialSummoned(e,0,tp,false,false) or spchk==1 or ft<=0 or Duel.SelectOption(tp,1190,1152)==0) then
+			Duel.SendtoHand(tc,nil,REASON_EFFECT)
+			th:AddCard(tc)
+		else
+			Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
+		end
+	end
+	if th:GetCount()>0 then
+		Duel.ConfirmCards(1-tp,th)
+	end
+	Duel.SpecialSummonComplete()
 end

@@ -1,5 +1,6 @@
 --天空の歌声
 function c64927055.initial_effect(c)
+    aux.AddCodeList(c,56433456)
 	--to hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND)
