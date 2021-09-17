@@ -33,7 +33,7 @@ function c26684111.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return b1 or b2 end
 end
 function c26684111.recfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x44,0x26b)
+	return c:IsFaceup() and c:IsSetCard(0x44,0x16f)
 end
 function c26684111.activate(e,tp,eg,ep,ev,re,r,rp)
 	local b1=Duel.IsExistingMatchingCard(c26684111.actfilter,tp,LOCATION_DECK,0,1,nil,tp)

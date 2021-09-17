@@ -27,6 +27,7 @@ function c74191528.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,1-tp,aux.Stringid(74191528,0))
 	local g2=Duel.SelectMatchingCard(1-tp,c74191528.filter,1-tp,LOCATION_DECK,0,1,1,nil)
 	Duel.BreakEffect()
+	if #g1>0 and #g2>0 then
 	--[[ need Duel.RandomSelect to be updated for manually select
 	local tg1=Duel.GetMatchingGroup(nil,tp,LOCATION_DECK,0,g1:GetFirst())
 	local tg2=Duel.GetMatchingGroup(nil,1-tp,LOCATION_DECK,0,g2:GetFirst())
@@ -56,4 +57,5 @@ function c74191528.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoHand(sg2,1-tp,REASON_EFFECT)
 	Duel.ConfirmCards(tp,sg2)
 	Duel.ConfirmCards(1-tp,sg1)
+	end
 end
