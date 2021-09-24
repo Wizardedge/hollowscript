@@ -16,7 +16,8 @@ function c3285551.initial_effect(c)
 end
 function c3285551.chainfilter(re,tp,cid)
 	local rc=re:GetHandler()
-	return not (re:IsActiveType(TYPE_MONSTER) and rc:IsLocation(LOCATION_MZONE) and not rc:IsSummonType(SUMMON_TYPE_SPECIAL))
+	local loc=Duel.GetChainInfo(cid,CHAININFO_TRIGGERING_LOCATION)
+	return not (re:IsActiveType(TYPE_MONSTER) and loc==LOCATION_MZONE and not rc:IsSummonType(SUMMON_TYPE_SPECIAL))
 end
 function c3285551.cfilter0(c)
 	return c:IsCode(3285552) and c:IsFaceup()
@@ -57,7 +58,8 @@ function c3285551.operation(e,tp,eg,ep,ev,re,r,rp)
 	local token=Duel.CreateToken(tp,3285552)
 	Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP)
 	local g=Duel.GetMatchingGroup(c3285551.setfilter,tp,LOCATION_DECK,0,nil)
-	if not Duel.IsExistingMatchingCard(c3285551.cfilter,tp,LOCATION_SZONE,0,1,nil) and g:GetCount()>0
+	if not Duel.IsExistingMatchingCard(c3285551.cfilter,tp,LOCATION_SZONE,0,1,nil)
+		and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and g:GetCount()>0
 		and Duel.SelectYesNo(tp,aux.Stringid(3285551,0)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)

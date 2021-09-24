@@ -40,6 +40,10 @@ function bit.replace(r,v,field,width)
 	return (r&~(m<<f))|((v&m)<< f)
 end
 
+--the chain id of the results modified by EVENT_TOSS_DICE_NEGATE
+Auxiliary.dice_chain_id=0
+Auxiliary.idx_table=table.pack(1,2,3,4,5,6,7,8)
+
 function Auxiliary.Stringid(code,id)
 	return code*16+id
 end
@@ -2174,6 +2178,7 @@ function Auxiliary.SZoneSequence(seq)
 	if seq>4 then return nil end
 	return seq
 end
+--generate the value function of EFFECT_CHANGE_BATTLE_DAMAGE on monsters
 function Auxiliary.ChangeBattleDamage(player,value)
 	return	function(e,damp)
 				if player==0 then
