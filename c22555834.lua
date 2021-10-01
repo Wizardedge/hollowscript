@@ -6,6 +6,7 @@ function c22555834.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCountLimit(1,22555834+EFFECT_COUNT_CODE_OATH)
+	e1:SetTarget(c22555834.target)
 	e1:SetOperation(c22555834.activate)
 	c:RegisterEffect(e1)
 	--spsummon
@@ -32,6 +33,10 @@ function c22555834.initial_effect(c)
 end
 function c22555834.tgfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x35) and c:IsAbleToGrave()
+end
+function c22555834.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
 end
 function c22555834.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
