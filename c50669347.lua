@@ -42,7 +42,7 @@ function c50669347.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		op=Duel.SelectOption(tp,aux.Stringid(50669347,2))+1
 	end
 	if op==0 then
-		e:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
+		e:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH+CATEGORY_GRAVE_ACTION)
 		e:SetOperation(c50669347.thop)
 		Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 	elseif op==1 then
