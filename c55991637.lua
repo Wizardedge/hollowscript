@@ -37,7 +37,7 @@ function c55991637.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		e:SetCategory(CATEGORY_DESTROY)
 		e:SetProperty(EFFECT_FLAG_CARD_TARGET)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-		local g=Duel.SelectTarget(tp,c55991637.dfilter,tp,LOCATION_MZONE,0,1,1,nil)
+		local g=Duel.SelectTarget(tp,c55991637.dfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 	end
 end
