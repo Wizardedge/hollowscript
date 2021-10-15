@@ -15,7 +15,7 @@ function c26684111.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EFFECT_DESTROY_REPLACE)
 	e2:SetRange(LOCATION_GRAVE)
-	e2:SetCountLimit(1,26684111+1)
+	e2:SetCountLimit(1,26684112)
 	e2:SetTarget(c26684111.reptg)
 	e2:SetValue(c26684111.repval)
 	e2:SetOperation(c26684111.repop)
@@ -81,7 +81,7 @@ function c26684111.activate(e,tp,eg,ep,ev,re,r,rp)
 			resolve=true
 		end
 	end
-	local check=Duel.IsEnvironment(56433456) or Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,56433456)
+	local check=Duel.IsEnvironment(56433456,PLAYER_ALL,LOCATION_ONFIELD+LOCATION_GRAVE)
 	local ct=Duel.GetMatchingGroupCount(c26684111.recfilter,tp,LOCATION_MZONE,0,nil)
 	if resolve and check and ct>0 and Duel.SelectYesNo(tp,aux.Stringid(26684111,2)) then
 		Duel.BreakEffect()

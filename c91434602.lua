@@ -1,6 +1,4 @@
 --マジェスティ・ヒュペリオン
---Majesty Hyperion
---scripted by XyLeN
 function c91434602.initial_effect(c)
 	aux.AddCodeList(c,56433456)
 	--spsummon proc
@@ -49,7 +47,7 @@ function c91434602.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function c91434602.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	local check=Duel.IsEnvironment(56433456) or Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,56433456)
+	local check=Duel.IsEnvironment(56433456,PLAYER_ALL,LOCATION_ONFIELD+LOCATION_GRAVE)
 	if check then return e:GetHandler():GetFlagEffect(91434602)<2
 	else return e:GetHandler():GetFlagEffect(91434602)<1 end
 end
