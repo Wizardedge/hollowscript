@@ -31,7 +31,10 @@ function c46935289.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c46935289.lcheck(g,lc)
-	return g:GetClassCount(Card.GetLinkAttribute)==1 and g:GetClassCount(Card.GetLinkRace)==1
+	if #g<2 then return false end
+	local c1=g:GetFirst()
+	local c2=g:GetNext()
+	return c1:GetLinkAttribute()&c2:GetLinkAttribute()>0 and c1:GetLinkRace()&c2:GetLinkRace()>0
 end
 function c46935289.discon(e,tp,eg,ep,ev,re,r,rp)
 	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)

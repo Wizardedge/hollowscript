@@ -39,8 +39,18 @@ function c98095162.initial_effect(c)
 	e3:SetOperation(c98095162.thop)
 	c:RegisterEffect(e3)
 end
+function c98095162.RaceAttribute(g)
+	local tc=g:GetFirst()
+	local att=tc:GetLinkAttribute()
+	tc=g:GetNext()
+	while tc do
+		att=bit.band(att,tc:GetLinkAttribute())
+		tc=g:GetNext()
+	end
+	return att
+end
 function c98095162.lcheck(g)
-	return g:GetClassCount(Card.GetLinkAttribute)==1 and g:GetClassCount(Card.GetLinkRace)==g:GetCount()
+	return c98095162.RaceAttribute(g)~=0 and g:GetClassCount(Card.GetLinkRace)==g:GetCount()
 end
 function c98095162.tgcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
