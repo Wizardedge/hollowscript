@@ -9,6 +9,7 @@ function c36970611.initial_effect(c)
 	--remove
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(36970611,0))
+	e2:SetCategory(CATEGORY_REMOVE)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetRange(LOCATION_SZONE)
@@ -32,28 +33,21 @@ function c36970611.initial_effect(c)
 	e3:SetOperation(c36970611.thop)
 	c:RegisterEffect(e3)
 end
-function c36970611.tgfilter(c,tp,xc)
-	return c:IsAbleToRemove(tp,POS_FACEDOWN) and c~=xc
-end
-function c36970611.cfilter(c,tp,xc)
+function c36970611.cfilter(c,tp)
 	return c:IsSetCard(0xc1) and c:IsType(TYPE_MONSTER) and (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and c:IsAbleToRemoveAsCost()
-		and Duel.IsExistingTarget(c36970611.tgfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c,tp,xc)
+		and Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c,tp,POS_FACEDOWN)
 end
 function c36970611.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local xc=nil
-	if not e:GetHandler():IsStatus(STATUS_EFFECT_ENABLED) then xc=e:GetHandler() end
-	if chk==0 then return Duel.IsExistingMatchingCard(c36970611.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil,tp,xc) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c36970611.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,nil,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local cg=Duel.SelectMatchingCard(tp,c36970611.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil,tp,xc)
+	local cg=Duel.SelectMatchingCard(tp,c36970611.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,1,1,nil,tp)
 	Duel.Remove(cg,POS_FACEUP,REASON_COST)
 end
 function c36970611.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and chkc:IsAbleToRemove() end
+	if chkc then return chkc:IsOnField() and chkc:IsAbleToRemove(tp,POS_FACEDOWN) end
 	if chk==0 then return true end
-	local xg=nil
-	if not e:GetHandler():IsStatus(STATUS_EFFECT_ENABLED) then xg=e:GetHandler() end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,xg,tp,POS_FACEDOWN)
+	local g=Duel.SelectTarget(tp,Card.IsAbleToRemove,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil,tp,POS_FACEDOWN)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function c36970611.operation(e,tp,eg,ep,ev,re,r,rp)

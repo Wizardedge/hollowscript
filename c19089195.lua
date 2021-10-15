@@ -1,6 +1,5 @@
 --潜海奇襲
 function c19089195.initial_effect(c)
-	aux.AddCodeList(c,22702055)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)

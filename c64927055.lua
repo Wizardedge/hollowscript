@@ -1,6 +1,6 @@
 --天空の歌声
 function c64927055.initial_effect(c)
-    aux.AddCodeList(c,56433456)
+	aux.AddCodeList(c,56433456)
 	--to hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND)
@@ -35,7 +35,7 @@ function c64927055.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not tc:IsRelateToEffect(e) then return end
 	if Duel.SendtoHand(tc,nil,REASON_EFFECT)>0 and tc:IsLocation(LOCATION_HAND) then
 		local g=Duel.GetMatchingGroup(c64927055.filter,tp,LOCATION_REMOVED,0,nil)
-		if (Duel.IsExistingMatchingCard(Card.IsCode,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil,56433456) or Duel.IsEnvironment(56433456))
+		if Duel.IsEnvironment(56433456,PLAYER_ALL,LOCATION_ONFIELD+LOCATION_GRAVE)
 			and #g>0 and Duel.SelectYesNo(tp,aux.Stringid(64927055,0)) then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 			local sc=g:Select(tp,1,1,nil)

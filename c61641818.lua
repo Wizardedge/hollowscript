@@ -32,16 +32,16 @@ function c61641818.mfilter(c,xyzc)
 end
 function c61641818.AttributeCheck(g)
 	local tc=g:GetFirst()
-	local att=tc:GetLinkAttribute()
+	local att=tc:GetAttribute()
 	tc=g:GetNext()
 	while tc do
-		att=bit.band(att,tc:GetLinkAttribute())
+		att=bit.band(att,tc:GetAttribute())
 		tc=g:GetNext()
 	end
 	return att
 end
 function c61641818.xyzcheck(g)
-	return g:GetClassCount(Card.GetRace)==1 and c79266769.AttributeCheck(g)~=0
+	return g:GetClassCount(Card.GetRace)==1 and c61641818.AttributeCheck(g)~=0
 end
 function c61641818.etcon(e)
 	return e:GetHandler():GetOverlayCount()~=0
