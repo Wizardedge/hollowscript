@@ -32,7 +32,7 @@ function c62941499.desfilter(c)
 end
 function c62941499.seqfilter(c,seq)
 	local loc=LOCATION_MZONE
-	if seq>8 then
+	if seq>=8 then
 		loc=LOCATION_SZONE
 		seq=seq-8
 	end
@@ -58,7 +58,6 @@ function c62941499.seqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local flag=Duel.SelectField(tp,1,0,LOCATION_ONFIELD,filter)
 	local seq=math.log(flag>>16,2)
 	e:SetLabel(seq)
-	Duel.Hint(HINT_ZONE,tp,flag)
 	local g=Duel.GetMatchingGroup(c62941499.seqfilter,tp,0,LOCATION_ONFIELD,nil,seq)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end

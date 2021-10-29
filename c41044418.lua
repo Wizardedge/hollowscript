@@ -29,6 +29,7 @@ function c41044418.initial_effect(c)
 	e2:SetOperation(c41044418.rbop)
 	c:RegisterEffect(e2)
 end
+SUMMON_VALUE_MONSTER_REBORN=0x13
 function c41044418.costfilter(c)
 	return c:IsRace(RACE_DIVINE) and c:IsAbleToGraveAsCost()
 end
@@ -95,8 +96,11 @@ function c41044418.rbop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e2,tp)
 	Duel.RegisterFlagEffect(tp,41044418,RESET_PHASE+PHASE_END,0,1)
 end
+function c41044418.regfilter(c)
+	return c:IsCode(10000010) and c:GetSummonType()==SUMMON_TYPE_SPECIAL+SUMMON_VALUE_MONSTER_REBORN
+end
 function c41044418.regcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(Card.IsCode,1,nil,10000010) and re and re:GetHandler():IsCode(83764718,101107077)
+	return eg:IsExists(Card.IsCode,1,nil,10000010)
 end
 function c41044418.regop(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(Card.IsCode,nil,10000010)
