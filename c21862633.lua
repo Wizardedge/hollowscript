@@ -66,19 +66,24 @@ function c21862633.drop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c21862633.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local a,at=Duel.GetBattleMonster(tp)
-	return a and at and (a:IsType(TYPE_NORMAL) and a:IsLevelAbove(5)
+	return a and at and at:GetAttack()>0 and (a:IsType(TYPE_NORMAL) and a:IsLevelAbove(5)
 		or a:GetFlagEffect(21862633)>0 and (a:IsSummonType(SUMMON_TYPE_RITUAL)
 			or a:IsSummonType(SUMMON_TYPE_FUSION)
 			or a:IsSummonType(SUMMON_TYPE_SYNCHRO)
 			or a:IsSummonType(SUMMON_TYPE_XYZ)))
 end
 function c21862633.atkop(e,tp,eg,ep,ev,re,r,rp)
-	local a,at=Duel.GetBattleMonster(tp)
-	if not a or not d or not a:IsRelateToBattle() or a:IsFacedown() or not at:IsRelateToBattle() or at:IsFacedown() then return end
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
-	e1:SetValue(at:GetAttack())
-	a:RegisterEffect(e1)
+	local a=Duel.GetAttacker()
+	local d=a:GetBattleTarget()
+	if a:IsControler(1-tp) then a,d=d,a end
+	if e:GetHandler():IsRelateToEffect(e)
+		and a:IsFaceup() and a:IsRelateToBattle()
+		and d:IsFaceup() and d:IsRelateToBattle() then
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_UPDATE_ATTACK)
+		e1:SetValue(d:GetAttack())
+		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+		a:RegisterEffect(e1)
+	end
 end

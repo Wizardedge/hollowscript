@@ -55,6 +55,7 @@ function c10000010.initial_effect(c)
 	e7:SetOperation(c10000010.desop)
 	c:RegisterEffect(e7)
 end
+SUMMON_VALUE_MONSTER_REBORN=0x13
 function c10000010.ttcon(e,c,minc)
 	if c==nil then return true end
 	return minc<=3 and Duel.CheckTribute(c,3)
@@ -69,11 +70,11 @@ function c10000010.setcon(e,c,minc)
 	return false
 end
 function c10000010.splimit(e,se,sp,st)
-	return Duel.IsPlayerAffectedByEffect(sp,41044418) and se:GetHandler():IsCode(83764718,101107077)
+	return Duel.IsPlayerAffectedByEffect(sp,41044418) and st&SUMMON_VALUE_MONSTER_REBORN>0
 		and e:GetHandler():IsControler(sp) and e:GetHandler():IsLocation(LOCATION_GRAVE)
 end
 function c10000010.genchainlm(c)
-	return  function (e,rp,tp)
+	return	function (e,rp,tp)
 				return e:GetHandler()==c
 			end
 end

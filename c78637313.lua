@@ -31,8 +31,9 @@ function c78637313.initial_effect(c)
 	e4:SetValue(c78637313.aclimit)
 	c:RegisterEffect(e4)
 end
+SUMMON_VALUE_MONSTER_REBORN=0x13
 function c78637313.filter(c)
-	return c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:GetReasonEffect():GetHandler():IsCode(83764718,101107077)
+	return c:GetSummonType()==SUMMON_TYPE_SPECIAL+SUMMON_VALUE_MONSTER_REBORN
 end
 function c78637313.adjustop(e,tp,eg,ep,ev,re,r,rp)
 	local phase=Duel.GetCurrentPhase()
