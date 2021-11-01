@@ -55,7 +55,6 @@ function c10000010.initial_effect(c)
 	e7:SetOperation(c10000010.desop)
 	c:RegisterEffect(e7)
 end
-SUMMON_VALUE_MONSTER_REBORN=0x13
 function c10000010.ttcon(e,c,minc)
 	if c==nil then return true end
 	return minc<=3 and Duel.CheckTribute(c,3)

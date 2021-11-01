@@ -29,7 +29,6 @@ function c41044418.initial_effect(c)
 	e2:SetOperation(c41044418.rbop)
 	c:RegisterEffect(e2)
 end
-SUMMON_VALUE_MONSTER_REBORN=0x13
 function c41044418.costfilter(c)
 	return c:IsRace(RACE_DIVINE) and c:IsAbleToGraveAsCost()
 end

@@ -86,7 +86,7 @@ function c69757518.operation(e,tp,eg,ep,ev,re,r,rp)
 		if sg1:GetCount()==0 then sg1:FilterSelect(tp,Card.IsAbleToDeck,1,1,nil) end
 		local c=e:GetHandler()
 		sg:Sub(sg1)
-		if sg1:GetCount()>0 and Duel.SendtoDeck(sg1,nil,0,REASON_EFFECT)~=0 and c:IsRelateToEffect(e) and sg:IsExists(Card.IsCanOverlay,1,nil) then
+		if sg1:GetCount()>0 and Duel.SendtoDeck(sg1,nil,SEQ_DECKTOP,REASON_EFFECT)~=0 and c:IsRelateToEffect(e) and sg:IsExists(Card.IsCanOverlay,1,nil) then
 			Duel.Overlay(c,sg)
 		end
 	end

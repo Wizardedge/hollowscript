@@ -10,7 +10,6 @@ function c83764718.initial_effect(c)
 	e1:SetOperation(c83764718.activate)
 	c:RegisterEffect(e1)
 end
-SUMMON_VALUE_MONSTER_REBORN=0x13
 function c83764718.filter(c,e,tp)
 	return c:IsCanBeSpecialSummoned(e,SUMMON_VALUE_MONSTER_REBORN,tp,false,false)
 end
