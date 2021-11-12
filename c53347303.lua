@@ -38,12 +38,17 @@ function c53347303.initial_effect(c)
 	e4:SetOperation(c53347303.disop)
 	c:RegisterEffect(e4)
 end
+function c53347303.spfilter(c,tp)
+	return c:IsCode(23995346)
+		and Duel.GetMZoneCount(tp,c)>0 and (c:IsControler(tp) or c:IsFaceup())
+end
 function c53347303.spcon(e,c)
 	if c==nil then return true end
-	return Duel.CheckReleaseGroup(c:GetControler(),Card.IsCode,1,nil,23995346)
+	local tp=c:GetControler()
+	return Duel.CheckReleaseGroup(tp,c53347303.spfilter,1,nil,tp)
 end
 function c53347303.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(c:GetControler(),Card.IsCode,1,1,nil,23995346)
+	local g=Duel.SelectReleaseGroup(tp,c53347303.spfilter,1,1,nil,tp)
 	Duel.Release(g,REASON_COST)
 end
 function c53347303.val(e,c)

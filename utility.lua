@@ -1675,6 +1675,7 @@ function Auxiliary.RitualUltimateOperation(filter,level_function,greater_or_equa
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 				local tg=Duel.SelectMatchingCard(tp,Auxiliary.NecroValleyFilter(Auxiliary.RitualUltimateFilter),tp,summon_location,0,1,1,nil,filter,e,tp,mg,exg,level_function,greater_or_equal)
 				local tc=tg:GetFirst()
+				local mat
 				if tc then
 					mg=mg:Filter(Card.IsCanBeRitualMaterial,tc,tc)
 					if exg then
@@ -1688,7 +1689,7 @@ function Auxiliary.RitualUltimateOperation(filter,level_function,greater_or_equa
 					Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 					local lv=level_function(tc)
 					Auxiliary.GCheckAdditional=Auxiliary.RitualCheckAdditional(tc,lv,greater_or_equal)
-					local mat=mg:SelectSubGroup(tp,Auxiliary.RitualCheck,false,1,lv,tp,tc,lv,greater_or_equal)
+					mat=mg:SelectSubGroup(tp,Auxiliary.RitualCheck,false,1,lv,tp,tc,lv,greater_or_equal)
 					Auxiliary.GCheckAdditional=nil
 					tc:SetMaterial(mat)
 					Duel.ReleaseRitualMaterial(mat)
@@ -1697,7 +1698,7 @@ function Auxiliary.RitualUltimateOperation(filter,level_function,greater_or_equa
 					tc:CompleteProcedure()
 				end
 				if extra_operation then
-					extra_operation(e,tp,eg,ep,ev,re,r,rp,tc)
+					extra_operation(e,tp,eg,ep,ev,re,r,rp,tc,mat)
 				end
 			end
 end
@@ -2421,14 +2422,14 @@ end
 function Auxiliary.UrsarcticSpSummonCondition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end
-function Auxiliary.UrsarcticReleaseFilter(c,tp)
-	return c:IsLevelAbove(7) and (c:IsControler(tp) and c:IsLocation(LOCATION_HAND) or c:IsFaceup() and c:IsControler(1-tp))
+function Auxiliary.UrsarcticReleaseFilter(c)
+	return c:IsLevelAbove(7) and c:IsLocation(LOCATION_HAND)
 end
 function Auxiliary.UrsarcticExCostFilter(c,tp)
 	return c:IsAbleToRemoveAsCost() and (c:IsHasEffect(16471775,tp) or c:IsHasEffect(89264428,tp))
 end
 function Auxiliary.UrsarcticSpSummonCost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g1=Duel.GetReleaseGroup(tp,true):Filter(Auxiliary.UrsarcticReleaseFilter,e:GetHandler(),tp)
+	local g1=Duel.GetReleaseGroup(tp,true):Filter(Auxiliary.UrsarcticReleaseFilter,e:GetHandler())
 	local g2=Duel.GetMatchingGroup(Auxiliary.UrsarcticExCostFilter,tp,LOCATION_GRAVE,0,nil,tp)
 	g1:Merge(g2)
 	if chk==0 then return g1:GetCount()>0 end

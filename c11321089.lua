@@ -23,6 +23,7 @@ function c11321089.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetCountLimit(1,11321089)
 	e2:SetCondition(c11321089.drcon)
 	e2:SetTarget(c11321089.drtg)
 	e2:SetOperation(c11321089.drop)
@@ -82,12 +83,10 @@ function c11321089.drop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c11321089.valcheck(e,c)
-	if e:GetLabel()==0 then
 	local mg=c:GetMaterial()
 	local mg1=mg:Filter(Card.IsLocation,nil,LOCATION_HAND)
 	local mg2=mg:Filter(Card.IsLocation,nil,LOCATION_ONFIELD)
 	e:GetLabelObject():SetLabel(#mg1,#mg2)
-	end
 end
 function c11321089.indcon(e)
 	return Duel.IsExistingMatchingCard(Card.IsCode,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil,24094653)
