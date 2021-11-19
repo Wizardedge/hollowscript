@@ -26,7 +26,7 @@ function c64018647.CanEquipFilter(c,eqc)
 	return c:IsFaceup() and eqc:CheckEquipTarget(c)
 end
 function c64018647.eqfilter(c,tp)
-	return aux.IsCodeListed(c,3285552) and c:IsType(TYPE_EQUIP) and c:CheckUniqueOnField(tp) and not c:IsForbidden() 
+	return aux.IsCodeListed(c,3285552) and c:IsType(TYPE_EQUIP) and c:CheckUniqueOnField(tp) and not c:IsForbidden()
 		and Duel.IsExistingMatchingCard(c64018647.CanEquipFilter,tp,LOCATION_MZONE,0,1,nil,c)
 end
 function c64018647.activate(e,tp,eg,ep,ev,re,r,rp)
@@ -50,7 +50,7 @@ function c64018647.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 	Duel.SpecialSummonComplete()
-	local eqg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c64018647.eqfilter),tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil,tp)
+	local eqg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c64018647.eqfilter),tp,LOCATION_HAND+LOCATION_GRAVE,0,nil,tp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and #eqg>0 and Duel.SelectYesNo(tp,aux.Stringid(64018647,0)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
