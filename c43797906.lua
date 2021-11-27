@@ -1,6 +1,5 @@
 --アトランティスの戦士
 function c43797906.initial_effect(c)
-	aux.AddCodeList(c,22702055)
 	--search
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(43797906,0))

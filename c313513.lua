@@ -36,7 +36,7 @@ function c313513.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end
 function c313513.dfilter(c)
-	return c:IsFacedown() or c:GetCode()~=83104731
+	return c:IsFacedown() or not c:IsCode(83104731)
 end
 function c313513.fselect(g)
 	return g:GetClassCount(Card.GetLocation)==g:GetCount()
@@ -45,14 +45,10 @@ function c313513.activate(e,tp,eg,ep,ev,re,r,rp)
 	local ft=math.min((Duel.GetLocationCount(tp,LOCATION_MZONE)),2)
 	local g=Duel.GetMatchingGroup(c313513.filter,tp,LOCATION_HAND+LOCATION_DECK,0,nil,e,tp)
 	if ft>0 and g:GetCount()>0 then
-		local ct=0
 		if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg=g:SelectSubGroup(tp,c313513.fselect,false,1,ft)
-		if sg and sg:GetCount()>0 then
-			ct=Duel.SpecialSummon(sg,0,tp,tp,true,false,POS_FACEUP)
-		end
-		if ct>0 then
+		if sg and Duel.SpecialSummon(sg,0,tp,tp,true,false,POS_FACEUP)>0 then
 			local dg=Duel.GetMatchingGroup(c313513.dfilter,tp,LOCATION_MZONE,0,nil)
 			if dg:GetCount()>0 then
 				Duel.BreakEffect()
@@ -63,7 +59,7 @@ function c313513.activate(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CANNOT_SUMMON)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e1:SetReset(RESET_SELF_TURN+RESET_PHASE+PHASE_END,2)
 	e1:SetTargetRange(1,0)
 	Duel.RegisterEffect(e1,tp)
