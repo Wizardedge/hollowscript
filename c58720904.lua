@@ -1,4 +1,4 @@
---ペンドラザクション
+--Pendransaction
 function c58720904.initial_effect(c)
 	--xyz summon
 	aux.AddXyzProcedure(c,nil,4,2)
@@ -22,7 +22,6 @@ end
 function c58720904.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=Duel.GetFieldGroupCount(tp,LOCATION_EXTRA,0)-Duel.GetFieldGroupCount(tp,0,LOCATION_EXTRA)
 	if chk==0 then
-		if ct>=10 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,1,nil) end
 		return ct>0
 	end
 	if ct>=10 then
