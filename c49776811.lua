@@ -60,7 +60,6 @@ function c49776811.ctop(e,tp,eg,ep,ev,re,r,rp)
 			local g=cg:Select(tp,1,1,nil)
 			if g:GetCount()>0 then
 				Duel.SendtoHand(g,nil,REASON_EFFECT)
-				Duel.ConfirmCards(1-tp,g)
 			end
 		end
 	end

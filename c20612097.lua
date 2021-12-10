@@ -40,12 +40,13 @@ function c20612097.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK+LOCATION_GRAVE)
 end
 function c20612097.activate(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local chk1=Duel.IsExistingMatchingCard(c20612097.filter,tp,LOCATION_MZONE,0,1,nil)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c20612097.spfilter),tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp,chk1)
-	if #g>0 then
-		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
+		local chk1=Duel.IsExistingMatchingCard(c20612097.filter,tp,LOCATION_MZONE,0,1,nil)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c20612097.spfilter),tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp,chk1)
+		if #g>0 then
+			Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+		end
 	end
 	if e:IsHasType(EFFECT_TYPE_ACTIVATE) then
 		local e1=Effect.CreateEffect(e:GetHandler())
