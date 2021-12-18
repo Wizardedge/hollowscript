@@ -40,7 +40,7 @@ function c60195675.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c60195675.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) and c:IsFaceup() then
+	if c:IsRelateToEffect(e) then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
@@ -55,6 +55,7 @@ function c60195675.xyzcon(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToBattle() then return false end
 	e:SetLabelObject(tc)
 	return tc and tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE) and tc:IsCanOverlay()
+		and (tc:IsLocation(LOCATION_GRAVE) or tc:IsFaceup() and tc:IsLocation(LOCATION_EXTRA+LOCATION_REMOVED))
 end
 function c60195675.xyztg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ) end
