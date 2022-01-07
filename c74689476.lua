@@ -31,7 +31,14 @@ function c74689476.mfilter(c,xyzc)
 	return c:IsXyzType(TYPE_MONSTER) and c:IsXyzLevel(xyzc,4) and c:IsRace(RACE_SPELLCASTER)
 end
 function c74689476.xyzcheck(g)
-	return g:GetClassCount(Card.GetAttribute)==#g
+	local att=0
+	local tc=g:GetFirst()
+	while tc do
+		if bit.band(att,tc:GetAttribute())~=0 then return false end
+		att=bit.bor(att,tc:GetAttribute())
+		tc=g:GetNext()
+	end
+	return true
 end
 function c74689476.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
