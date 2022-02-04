@@ -70,6 +70,7 @@ function c6992184.activate(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 		e3:SetCountLimit(1)
 		e3:SetOperation(c6992184.retop)
+		e3:SetReset(RESET_PHASE+PHASE_END)
 		Duel.RegisterEffect(e3,tp)
 	end
 	local lpz=Duel.GetFieldCard(tp,LOCATION_PZONE,0)

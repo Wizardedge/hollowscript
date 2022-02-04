@@ -9,7 +9,6 @@ function c3659803.initial_effect(c)
 	e1:SetOperation(c3659803.activate)
 	c:RegisterEffect(e1)
 end
-SUMMON_VALUE_OVERLOAD_FUSION=0x14
 function c3659803.filter0(c)
 	return c:IsOnField() and c:IsAbleToRemove()
 end
@@ -18,7 +17,7 @@ function c3659803.filter1(c,e)
 end
 function c3659803.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_MACHINE) and (not f or f(c))
-		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION+SUMMON_VALUE_OVERLOAD_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,chkf)
+		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,chkf)
 end
 function c3659803.filter3(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
@@ -70,7 +69,7 @@ function c3659803.activate(e,tp,eg,ep,ev,re,r,rp)
 			tc:SetMaterial(mat1)
 			Duel.Remove(mat1,POS_FACEUP,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 			Duel.BreakEffect()
-			Duel.SpecialSummon(tc,SUMMON_TYPE_FUSION+SUMMON_VALUE_OVERLOAD_FUSION,tp,tp,false,false,POS_FACEUP)
+			Duel.SpecialSummon(tc,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)
 		else
 			local mat2=Duel.SelectFusionMaterial(tp,tc,mg3,nil,chkf)
 			local fop=ce:GetOperation()
