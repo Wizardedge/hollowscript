@@ -30,12 +30,6 @@ end
 function c44362883.splimit(e,c)
 	return c:IsLocation(LOCATION_EXTRA) and not c:IsType(TYPE_FUSION)
 end
-function c44362883.fcheck(tp,sg,fc)
-	return #sg<=2
-end
-function c44362883.gcheck(sg)
-	return #sg<=2
-end
 function c44362883.filter0(c)
 	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end
@@ -46,6 +40,9 @@ function c44362883.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and aux.IsMaterialListCode(c,68468459) and (not f or f(c))
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_FUSION,tp,false,false) and c:CheckFusionMaterial(m,nil,chkf)
 end
+function c44362883.fcheck(tp,sg,fc)
+	return sg:GetCount()<=2
+end
 function c44362883.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local chkf=tp
@@ -53,8 +50,8 @@ function c44362883.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		local mg2=Duel.GetMatchingGroup(c44362883.filter0,tp,LOCATION_DECK,0,nil)
 		mg1:Merge(mg2)
 		aux.FCheckAdditional=c44362883.fcheck
-		aux.GCheckAdditional=c44362883.gcheck
 		local res=Duel.IsExistingMatchingCard(c44362883.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil,chkf)
+		aux.FCheckAdditional=nil
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)
 			if ce~=nil then
@@ -64,14 +61,9 @@ function c44362883.target(e,tp,eg,ep,ev,re,r,rp,chk)
 				res=Duel.IsExistingMatchingCard(c44362883.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg2,mf,chkf)
 			end
 		end
-		aux.FCheckAdditional=nil
-		aux.GCheckAdditional=nil
 		return res
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
-	if e:IsHasType(EFFECT_TYPE_ACTIVATE) then
-		Duel.SetChainLimit(aux.FALSE)
-	end
 end
 function c44362883.activate(e,tp,eg,ep,ev,re,r,rp)
 	local chkf=tp
@@ -79,8 +71,8 @@ function c44362883.activate(e,tp,eg,ep,ev,re,r,rp)
 	local mg2=Duel.GetMatchingGroup(c44362883.filter0,tp,LOCATION_DECK,0,nil)
 	mg1:Merge(mg2)
 	aux.FCheckAdditional=c44362883.fcheck
-	aux.GCheckAdditional=c44362883.gcheck
 	local sg1=Duel.GetMatchingGroup(c44362883.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,nil,chkf)
+	aux.FCheckAdditional=nil
 	local mg3=nil
 	local sg2=nil
 	local ce=Duel.GetChainMaterial(tp)
@@ -97,7 +89,9 @@ function c44362883.activate(e,tp,eg,ep,ev,re,r,rp)
 		local tg=sg:Select(tp,1,1,nil)
 		local tc=tg:GetFirst()
 		if sg1:IsContains(tc) and (sg2==nil or not sg2:IsContains(tc) or not Duel.SelectYesNo(tp,ce:GetDescription())) then
+			aux.FCheckAdditional=c44362883.fcheck
 			local mat1=Duel.SelectFusionMaterial(tp,tc,mg1,nil,chkf)
+			aux.FCheckAdditional=nil
 			tc:SetMaterial(mat1)
 			Duel.SendtoGrave(mat1,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 			Duel.BreakEffect()
@@ -109,6 +103,4 @@ function c44362883.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 		tc:CompleteProcedure()
 	end
-	aux.FCheckAdditional=nil
-	aux.GCheckAdditional=nil
 end
