@@ -19,20 +19,8 @@ function c82556058.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1)
-	e2:SetCost(c82556058.atkcost)
 	e2:SetOperation(c82556058.atkop)
 	c:RegisterEffect(e2)
-	--Destroy
-	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(82556058,2))
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e3:SetCode(EVENT_PHASE+PHASE_END)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1)
-	e3:SetCondition(c82556058.descon)
-	e3:SetTarget(c82556058.destg)
-	e3:SetOperation(c82556058.desop)
-	c:RegisterEffect(e3)
 end
 function c82556058.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
@@ -44,14 +32,9 @@ function c82556058.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c82556058.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if not Duel.IsPlayerCanSpecialSummonMonster(tp,82556059,0,TYPES_TOKEN_MONSTER,200,200,1,RACE_MACHINE,ATTRIBUTE_EARTH) then return end
+	if not Duel.IsPlayerCanSpecialSummonMonster(tp,82556059,0,TYPES_TOKEN_MONSTER,200,200,1,RACE_MACHINE,ATTRIBUTE_EARTH,POS_FACEUP_ATTACK) then return end
 	local token=Duel.CreateToken(tp,82556059)
 	Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP_ATTACK)
-end
-function c82556058.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return true end
-	c:RegisterFlagEffect(82556058,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 end
 function c82556058.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -63,9 +46,16 @@ function c82556058.atkop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetValue(1000)
 	e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_DISABLE+RESET_PHASE+PHASE_END)
 	c:RegisterEffect(e1)
-end
-function c82556058.descon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetFlagEffect(82556058)~=0
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(82556058,2))
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e2:SetCode(EVENT_PHASE+PHASE_END)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCountLimit(1)
+	e2:SetTarget(c82556058.destg)
+	e2:SetOperation(c82556058.desop)
+	e2:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+	c:RegisterEffect(e2)
 end
 function c82556058.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

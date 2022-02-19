@@ -1,5 +1,6 @@
 --ネオス・フォース
 function c47274077.initial_effect(c)
+	aux.AddSetNameMonsterList(c,0x3008)
 	aux.AddCodeList(c,89943723)
 	--Activate
 	local e1=Effect.CreateEffect(c)
