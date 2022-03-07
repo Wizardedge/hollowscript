@@ -1,7 +1,7 @@
 --ネオス・フォース
 function c47274077.initial_effect(c)
-	aux.AddSetNameMonsterList(c,0x3008)
 	aux.AddCodeList(c,89943723)
+	aux.AddSetNameMonsterList(c,0x3008)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_EQUIP)
@@ -77,14 +77,11 @@ function c47274077.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ec=eg:GetFirst()
 	local bc=ec:GetBattleTarget()
 	local dam=bc:GetAttack()
-	Duel.SetTargetCard(bc)
 	Duel.SetTargetPlayer(1-tp)
 	Duel.SetTargetParam(dam)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,dam)
 end
 function c47274077.damop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstTarget()
-	if not tc:IsRelateToEffect(e) then return end
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Damage(p,d,REASON_EFFECT)
 end

@@ -11,9 +11,8 @@ function c61968753.initial_effect(c)
 	e1:SetOperation(c61968753.posop)
 	c:RegisterEffect(e1)
 end
-function c61968753.filter1(c,tp)
+function c61968753.filter1(c)
 	return c:IsPosition(POS_FACEUP_ATTACK) and c:IsCanChangePosition() and c:IsCode(79979666) and c:IsReleasableByEffect()
-		and Duel.GetMZoneCount(tp,c)>0
 end
 function c61968753.filter2(c)
 	return c:IsPosition(POS_FACEUP_ATTACK) and c:IsCanChangePosition()
@@ -23,11 +22,12 @@ function c61968753.spfilter(c,e,tp)
 end
 function c61968753.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(c61968753.filter1,tp,LOCATION_MZONE,0,1,nil,tp)
+	if chk==0 then return Duel.IsExistingTarget(c61968753.filter1,tp,LOCATION_MZONE,0,1,nil)
 		and Duel.IsExistingTarget(c61968753.filter2,tp,0,LOCATION_MZONE,1,nil)
+		and Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
 		and Duel.IsExistingMatchingCard(c61968753.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
-	local g1=Duel.SelectTarget(tp,c61968753.filter1,tp,LOCATION_MZONE,0,1,1,nil,tp)
+	local g1=Duel.SelectTarget(tp,c61968753.filter1,tp,LOCATION_MZONE,0,1,1,nil)
 	e:SetLabelObject(g1:GetFirst())
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
 	local g2=Duel.SelectTarget(tp,c61968753.filter2,tp,0,LOCATION_MZONE,1,1,nil)

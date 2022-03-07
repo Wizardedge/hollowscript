@@ -23,7 +23,7 @@ function c5126490.initial_effect(c)
 	e3:SetCategory(CATEGORY_DAMAGE+CATEGORY_RECOVER)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e3:SetCode(EVENT_DAMAGE_STEP_END)
-	e3:SetCondition(aux.dsercon)
+	e3:SetCondition(c5126490.damcon)
 	e3:SetTarget(c5126490.damtg)
 	e3:SetOperation(c5126490.damop)
 	c:RegisterEffect(e3)
@@ -56,6 +56,9 @@ function c5126490.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g2=Duel.SelectMatchingCard(tp,c5126490.spfilter2,tp,LOCATION_MZONE,0,1,1,g1:GetFirst())
 	g1:Merge(g2)
 	Duel.SendtoGrave(g1,REASON_COST)
+end
+function c5126490.damcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetAttackTarget()~=nil
 end
 function c5126490.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()

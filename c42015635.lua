@@ -1,7 +1,7 @@
 --ネオスペース
 function c42015635.initial_effect(c)
-	aux.AddSetNameMonsterList(c,0x3008)
 	aux.AddCodeList(c,89943723)
+	aux.AddSetNameMonsterList(c,0x3008)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)

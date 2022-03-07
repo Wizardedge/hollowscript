@@ -12,7 +12,7 @@ function c19394153.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c19394153.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsAbleToEnterBP() and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)>1
+	return Duel.IsAbleToEnterBP()
 end
 function c19394153.filter(c)
 	return c:IsFaceup() and c:IsCode(21844576)

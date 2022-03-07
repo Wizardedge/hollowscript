@@ -1,7 +1,7 @@
 --ラス・オブ・ネオス
 function c52098461.initial_effect(c)
-	aux.AddSetNameMonsterList(c,0x3008)
 	aux.AddCodeList(c,89943723)
+	aux.AddSetNameMonsterList(c,0x3008)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TODECK+CATEGORY_DESTROY)

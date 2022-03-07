@@ -2381,7 +2381,7 @@ end
 --filter for necro_valley test
 function Auxiliary.NecroValleyFilter(f)
 	return	function(target,...)
-				return (not f or f(target,...)) and not (target:IsHasEffect(EFFECT_NECRO_VALLEY) and Duel.IsChainDisablable(0))
+				return (not f or f(target,...)) and not target:IsHasEffect(EFFECT_NECRO_VALLEY)
 			end
 end
 --Necrovalley test for effect with not certain target or not certain action
@@ -2804,4 +2804,7 @@ function Auxiliary.UseExtraReleaseCount(g,tp)
 end
 function Auxiliary.ExtraReleaseFilter(c,tp)
 	return c:IsControler(1-tp) and c:IsHasEffect(EFFECT_EXTRA_RELEASE_NONSUM,tp)
+end
+function Auxiliary.IsSpecialSummonedByEffect(e)
+	return not ((e:GetCode()==EFFECT_SPSUMMON_PROC or e:GetCode()==EFFECT_SPSUMMON_PROC_G) and e:GetProperty()&(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)==(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE))
 end
