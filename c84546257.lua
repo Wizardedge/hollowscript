@@ -1,4 +1,4 @@
---海晶乙女コーラルトライアング
+--海晶乙女コーラルトライアングル
 function c84546257.initial_effect(c)
 	--link summon
 	aux.AddLinkProcedure(c,aux.FilterBoolFunction(Card.IsLinkSetCard,0x12b),2)
@@ -34,7 +34,7 @@ function c84546257.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)	
 	e1:SetReset(RESET_PHASE+PHASE_END)
 	e1:SetTargetRange(1,0)
 	e1:SetTarget(c84546257.splimit)

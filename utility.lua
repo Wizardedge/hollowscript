@@ -49,6 +49,15 @@ function bit.replace(r,v,field,width)
 	return (r&~(m<<f))|((v&m)<< f)
 end
 
+--the table of xyz number
+Auxiliary.xyz_number={}
+function Auxiliary.GetXyzNumber(v)
+	local id
+	if Auxiliary.GetValueType(v)=="Card" then id=v:GetCode() end
+	if Auxiliary.GetValueType(v)=="number" then id=v end
+	return Auxiliary.xyz_number[id]
+end
+
 --the chain id of the results modified by EVENT_TOSS_DICE_NEGATE
 Auxiliary.dice_chain_id=0
 Auxiliary.idx_table=table.pack(1,2,3,4,5,6,7,8)
@@ -2807,4 +2816,22 @@ function Auxiliary.ExtraReleaseFilter(c,tp)
 end
 function Auxiliary.IsSpecialSummonedByEffect(e)
 	return not ((e:GetCode()==EFFECT_SPSUMMON_PROC or e:GetCode()==EFFECT_SPSUMMON_PROC_G) and e:GetProperty()&(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)==(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE))
+end
+--
+function Auxiliary.GetCappedLevel(c)
+	local lv=c:GetLevel()
+	if lv>MAX_PARAMETER then
+		return MAX_PARAMETER
+	else
+		return lv
+	end
+end
+--
+function Auxiliary.GetCappedAttack(c)
+	local x=c:GetAttack()
+	if x>MAX_PARAMETER then
+		return MAX_PARAMETER
+	else
+		return x
+	end
 end

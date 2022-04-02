@@ -58,7 +58,7 @@ function s.initial_effect(c)
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>0
-		and Duel.GetDrawCount(tp)>0
+		and Duel.GetDrawCount(tp)>0 and Duel.GetTurnCount()>1 --mr3
 end
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not e:GetHandler():IsPublic() end

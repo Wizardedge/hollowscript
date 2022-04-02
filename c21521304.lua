@@ -26,7 +26,7 @@ function c21521304.initial_effect(c)
 	e2:SetOperation(c21521304.spop)
 	c:RegisterEffect(e2)
 end
-c21521304.xyz_number=39
+aux.xyz_number[21521304]=39
 function c21521304.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
 end
@@ -47,18 +47,19 @@ function c21521304.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
-function c21521304.rmfilter(c,tp)
-	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsAbleToRemove() and Duel.GetMZoneCount(tp,c)>0
+function c21521304.rmfilter(c)
+	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsAbleToRemove()
 end
 function c21521304.spfilter(c,e,tp)
 	return c:IsSetCard(0x107f) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c21521304.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(c21521304.rmfilter,tp,LOCATION_MZONE,0,1,nil,tp)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
+		and Duel.IsExistingTarget(c21521304.rmfilter,tp,LOCATION_MZONE,0,1,nil)
 		and Duel.IsExistingTarget(c21521304.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g1=Duel.SelectTarget(tp,c21521304.rmfilter,tp,LOCATION_MZONE,0,1,1,nil,tp)
+	local g1=Duel.SelectTarget(tp,c21521304.rmfilter,tp,LOCATION_MZONE,0,1,1,nil)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g2=Duel.SelectTarget(tp,c21521304.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g1,1,0,0)

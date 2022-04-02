@@ -68,13 +68,13 @@ function c93729065.atkval(e,c)
 	return Duel.GetCounter(0,1,1,0x104f)*-200
 end
 function c93729065.rdcon(e,tp,eg,ep,ev,re,r,rp)
-	return ep==tp and e:GetHandler():GetFlagEffect(93729065)==0
+	return ep==tp and e:GetHandler():GetFlagEffect(93729066)==0
 end
 function c93729065.rdop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.SelectYesNo(tp,aux.Stringid(93729065,3)) then
-		e:GetHandler():RegisterFlagEffect(93729065,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 		Duel.Hint(HINT_CARD,0,93729065)
 		Duel.ChangeBattleDamage(tp,0)
+		e:GetHandler():RegisterFlagEffect(93729066,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
 	end
 end
 function c93729065.copycost(e,tp,eg,ep,ev,re,r,rp,chk)

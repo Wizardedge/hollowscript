@@ -71,6 +71,7 @@ function c16306932.initial_effect(c)
 	e8:SetOperation(c16306932.tdop)
 	c:RegisterEffect(e8)
 end
+c16306932.spchecks=aux.CreateChecks(Card.IsType,{TYPE_FUSION,TYPE_SYNCHRO,TYPE_XYZ})
 function c16306932.psplimit(e,c,tp,sumtp,sumpos)
 	return not c:IsRace(RACE_DRAGON) and bit.band(sumtp,SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
 end
@@ -93,26 +94,16 @@ function c16306932.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function c16306932.cfilter(c,tp)
-	return c:IsRace(RACE_DRAGON) and (c:IsFaceup() or c:IsControler(tp))
-	and (c:IsType(TYPE_FUSION) or c:IsType(TYPE_SYNCHRO) or c:IsType(TYPE_XYZ))
-end
-function c16306932.ccfilter(c)
-	return bit.band(c:GetType(),TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ)
-end
-function c16306932.fselect(g,tp)
-	return g:GetClassCount(c16306932.ccfilter)==g:GetCount() and Duel.GetMZoneCount(tp,g)>0
-end
 function c16306932.hspcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	local g=Duel.GetReleaseGroup(tp):Filter(c16306932.cfilter,nil,tp)
-	return g:CheckSubGroup(c16306932.fselect,3,3,tp)
+	local g=Duel.GetReleaseGroup(tp):Filter(Card.IsRace,nil,RACE_DRAGON)
+	return g:CheckSubGroupEach(c16306932.spchecks,aux.mzctcheckrel,tp)
 end
 function c16306932.hsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
-	local g=Duel.GetReleaseGroup(tp):Filter(c16306932.cfilter,nil,tp)
+	local g=Duel.GetReleaseGroup(tp):Filter(Card.IsRace,nil,RACE_DRAGON)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
-	local sg=g:SelectSubGroup(tp,c16306932.fselect,true,3,3,tp)
+	local sg=g:SelectSubGroupEach(tp,c16306932.spchecks,true,aux.mzctcheckrel,tp)
 	if sg then
 		sg:KeepAlive()
 		e:SetLabelObject(sg)

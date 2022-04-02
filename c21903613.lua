@@ -52,13 +52,13 @@ function c21903613.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ConfirmDecktop(tp,ac)
 	local g=Duel.GetDecktopGroup(tp,ac)
 	local og=g:Filter(c21903613.spfilter,nil,e,tp)
-	Duel.DisableShuffleCheck()
 	local ft=math.min((Duel.GetLocationCount(tp,LOCATION_MZONE)),2)
 	if og:GetCount()>0 and ft>0 and Duel.SelectYesNo(tp,aux.Stringid(21903613,3)) then
 		if ft>1 and Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local sg=og:Select(tp,1,ft,nil)
 		for tc in aux.Next(sg) do
+			Duel.DisableShuffleCheck()
 			if Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP) then
 				local e1=Effect.CreateEffect(c)
 				e1:SetType(EFFECT_TYPE_SINGLE)
