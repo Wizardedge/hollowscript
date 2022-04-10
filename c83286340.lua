@@ -1,4 +1,4 @@
---ウォークライ・フォティア
+--War Rock Fortia
 function c83286340.initial_effect(c)
 	--tohand & atkchange
 	local e1=Effect.CreateEffect(c)

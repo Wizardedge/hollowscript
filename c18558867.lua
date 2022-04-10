@@ -1,4 +1,4 @@
---ウォークライ・バシレオス
+--War Rock Bashileos
 function c18558867.initial_effect(c)
 	--direct attack
 	local e1=Effect.CreateEffect(c)

@@ -12,6 +12,7 @@ function c34149830.initial_effect(c)
 	e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCondition(c34149830.condition)
+	e2:SetCost(c34149830.cost)
 	e2:SetTarget(c34149830.target)
 	e2:SetOperation(c34149830.operation)
 	c:RegisterEffect(e2)
@@ -26,12 +27,16 @@ function c34149830.condition(e,tp,eg,ep,ev,re,r,rp)
 	return tc and bc and not tc:IsHasEffect(EFFECT_INDESTRUCTABLE_BATTLE)
 		and tc:IsPosition(POS_FACEUP_ATTACK) and tc:GetAttack()<=bc:GetAttack()
 end
+function c34149830.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return c:GetFlagEffect(34149830)==0 end
+	c:RegisterFlagEffect(34149830,RESET_CHAIN,0,1)
+end
 function c34149830.spfilter(c,e,tp)
 	return c:IsLevelBelow(4) and c:IsRace(RACE_WARRIOR) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c34149830.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not e:GetHandler():IsStatus(STATUS_CHAINING)
-		and Duel.IsExistingMatchingCard(c34149830.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c34149830.spfilter,tp,LOCATION_HAND,0,1,nil,e,tp) end
 end
 function c34149830.operation(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())

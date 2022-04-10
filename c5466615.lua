@@ -1,4 +1,4 @@
---ミュートリア連鎖応動
+--Myutant Clash
 function c5466615.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)

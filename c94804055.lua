@@ -33,10 +33,12 @@ function c94804055.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.NegateAttack()
 end
 function c94804055.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttackTarget()==nil and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttackTarget()==nil
 end
 function c94804055.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c94804055.cfilter,tp,LOCATION_GRAVE,0,1,nil) end
+	local c=e:GetHandler()
+	if chk==0 then return c:GetFlagEffect(94804055)==0 and Duel.IsExistingMatchingCard(c94804055.cfilter,tp,LOCATION_GRAVE,0,1,nil) end
+	c:RegisterFlagEffect(94804055,RESET_CHAIN,0,1)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,c94804055.cfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)

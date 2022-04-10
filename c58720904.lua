@@ -1,4 +1,4 @@
---Pendransaction
+--ペンドラザクション
 function c58720904.initial_effect(c)
 	--xyz summon
 	aux.AddXyzProcedure(c,nil,4,2)
@@ -21,9 +21,7 @@ function c58720904.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c58720904.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ct=Duel.GetFieldGroupCount(tp,LOCATION_EXTRA,0)-Duel.GetFieldGroupCount(tp,0,LOCATION_EXTRA)
-	if chk==0 then
-		return ct>0
-	end
+	if chk==0 then return ct>0 end
 	if ct>=10 then
 		Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,1-tp,LOCATION_ONFIELD)
 	end

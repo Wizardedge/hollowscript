@@ -1,4 +1,4 @@
---増援部隊
+--Reinforcement of the Army's Troops
 function c79371897.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)

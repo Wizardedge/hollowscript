@@ -59,7 +59,6 @@ function Auxiliary.GetXyzNumber(v)
 end
 
 --the chain id of the results modified by EVENT_TOSS_DICE_NEGATE
-Auxiliary.dice_chain_id=0
 Auxiliary.idx_table=table.pack(1,2,3,4,5,6,7,8)
 
 function Auxiliary.Stringid(code,id)
@@ -215,6 +214,40 @@ function Auxiliary.SpiritReturnOperation(e,tp,eg,ep,ev,re,r,rp)
 	if c:IsRelateToEffect(e) then
 		Duel.SendtoHand(c,nil,REASON_EFFECT)
 	end
+end
+function Auxiliary.EnableNeosReturn(c,operation)
+	--return
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(1105)
+	e1:SetCategory(CATEGORY_TODECK)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e1:SetCode(EVENT_PHASE+PHASE_END)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetCountLimit(1)
+	e1:SetCondition(Auxiliary.NeosReturnConditionForced)
+	e1:SetTarget(Auxiliary.NeosReturnTargetForced)
+	e1:SetOperation(operation)
+	c:RegisterEffect(e1)
+	local e2=e1:Clone()
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e2:SetCondition(Auxiliary.NeosReturnConditionOptional)
+	e2:SetTarget(Auxiliary.NeosReturnTargetOptional)
+	c:RegisterEffect(e2)
+	return e1,e2
+end
+function Auxiliary.NeosReturnConditionForced(e,tp,eg,ep,ev,re,r,rp)
+	return not e:GetHandler():IsHasEffect(42015635)
+end
+function Auxiliary.NeosReturnTargetForced(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
+end
+function Auxiliary.NeosReturnConditionOptional(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsHasEffect(42015635)
+end
+function Auxiliary.NeosReturnTargetOptional(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsAbleToExtra() end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,e:GetHandler(),1,0,0)
 end
 function Auxiliary.IsUnionState(effect)
 	local c=effect:GetHandler()

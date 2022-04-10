@@ -1,4 +1,4 @@
---三相魔神コーディウス
+--Coordius the Triphasic Dealmon
 function c70219023.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
