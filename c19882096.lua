@@ -24,16 +24,14 @@ function c19882096.cfilter(c)
 end
 function c19882096.getzone(tp)
 	local zone=0
-	local lg=Duel.GetMatchingGroup(c19882096.cfilter,tp,LOCATION_MZONE,0,nil)
-	for tc in aux.Next(lg) do
-	local seq=tc:GetSequence()
-		zone=bit.bor(zone,tc:GetColumnZone(LOCATION_MZONE,tp))
-		if seq<5 then
-		if seq>0 and Duel.CheckLocation(tp,LOCATION_MZONE,seq-1) then zone=zone|(1<<(seq-1)) end
-		if seq<4 and Duel.CheckLocation(tp,LOCATION_MZONE,seq+1) then zone=zone|(1<<(seq+1)) end
-		end
+	local g=Duel.GetMatchingGroup(c19882096.cfilter,tp,LOCATION_MZONE,0,nil)
+	for tc in aux.Next(g) do
+		local seq=aux.MZoneSequence(tc:GetSequence())
+		zone=zone|(1<<seq)
+		if seq>0 then zone=zone|(1<<(seq-1)) end
+		if seq<4 then zone=zone|(1<<(seq+1)) end
 	end
-	return bit.band(zone,0x1f)
+	return zone
 end
 function c19882096.hspcon(e,c)
 	if c==nil then return true end

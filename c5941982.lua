@@ -1,5 +1,4 @@
 --肆世壊の継承
---not fully implemented
 local s,id,o=GetID()
 function s.initial_effect(c)
 	--Activate
@@ -38,7 +37,7 @@ end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetCode(EFFECT_LIMIT_SPECIAL_SUMMON_POSITION)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e1:SetTargetRange(0,1)
 	e1:SetTarget(s.splimit)
@@ -46,7 +45,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.splimit(e,c,tp,sumtp,sumpos)
-	return sumpos==POS_FACEUP_ATTACK --(sumpos&POS_ATTACK)>0
+	return (sumpos&POS_ATTACK)>0
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp

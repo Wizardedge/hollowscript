@@ -54,9 +54,8 @@ function c40771118.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c40771118.plcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return c:IsAbleToGraveAsCost() and c:IsStatus(STATUS_EFFECT_ENABLED) end
-	Duel.SendtoGrave(c,REASON_COST)
+	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
+	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
 function c40771118.plfilter(c,tp,mc)
 	if not c:IsSetCard(0x1c) then return false end
@@ -92,7 +91,7 @@ function c40771118.plop(e,tp,eg,ep,ev,re,r,rp)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
-		e2:SetValue(aux.imval1)
+		e2:SetValue(1)
 		e2:SetReset(RESET_EVENT+0x47c0000)
 		tc:RegisterEffect(e2)
 		Duel.SpecialSummonComplete()

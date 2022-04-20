@@ -50,7 +50,7 @@ function c99054885.spfilter(c,e,tp)
 end
 function c99054885.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return Duel.CheckLPCost(tp,500) and ft>0 end
+	if chk==0 then return Duel.CheckLPCost(tp,500,true) and ft>0 end
 	local lp=Duel.GetLP(tp)
 	local g=Duel.GetMatchingGroup(c99054885.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,nil,e,tp)
 	local ct=g:GetCount()
@@ -58,12 +58,12 @@ function c99054885.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if ct>1 and Duel.IsPlayerAffectedByEffect(tp,59822133) then ct=1 end
 	local t={}
 	for i=1,ct do
-		if not Duel.CheckLPCost(tp,i*500) then break end
+		if not Duel.CheckLPCost(tp,i*500,true) then break end
 		t[i]=i
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(99054885,2))
 	local announce=Duel.AnnounceNumber(tp,table.unpack(t))
-	Duel.PayLPCost(tp,announce*500)
+	Duel.PayLPCost(tp,announce*500,true)
 	e:SetLabel(announce)
 end
 function c99054885.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

@@ -24,6 +24,10 @@ function c43863925.initial_effect(c)
 	e2:SetTarget(c43863925.sptg)
 	e2:SetOperation(c43863925.spop)
 	c:RegisterEffect(e2)
+	local e3=e2:Clone()
+	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e3:SetCondition(c43863925.spcon2)
+	c:RegisterEffect(e3)
 end
 function c43863925.effspfilter(c,e,tp)
 	return c:IsSetCard(0x172) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
@@ -47,7 +51,10 @@ function c43863925.effop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c43863925.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return rp==1-tp or (eg:IsExists(Card.IsSummonPlayer,1,nil,1-tp) and eg:IsExists(Card.IsPreviousLocation,1,nil,LOCATION_GRAVE))
+	return rp==1-tp
+end
+function c43863925.spcon2(e,tp,eg,ep,ev,re,r,rp)
+	return (eg:IsExists(Card.IsSummonPlayer,1,nil,1-tp) and eg:IsExists(Card.IsPreviousLocation,1,nil,LOCATION_GRAVE))
 end
 function c43863925.spfilter(c,e,tp,mc)
 	return c:IsSetCard(0x172) and c:IsType(TYPE_XYZ) and mc:IsCanBeXyzMaterial(c)

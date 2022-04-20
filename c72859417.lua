@@ -60,7 +60,7 @@ function c72859417.activate(e,tp,eg,ep,ev,re,r,rp)
 		c2=g:Filter(aux.TRUE,c1):GetFirst()
 	end
 	local mg=c1:GetOverlayGroup()
-	if mg:GetCount()>0 then Duel.Overlay(c2,mg) end
+	if mg:GetCount()>0 then Duel.Overlay(c2,mg,false) end
 	Duel.Overlay(c2,Group.FromCards(c1))
 end
 function c72859417.drfilter(c)

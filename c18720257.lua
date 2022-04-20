@@ -1,4 +1,5 @@
 --天気予報
+local s,id,o=GetID()
 function c18720257.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -13,7 +14,7 @@ function c18720257.initial_effect(c)
 	e2:SetCode(EFFECT_EXTRA_LINK_MATERIAL)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetTargetRange(LOCATION_SZONE,0)
-	e2:SetCountLimit(1,18720258)
+	e2:SetCountLimit(1,18720257+o)
 	e2:SetTarget(c18720257.mattg)
 	e2:SetValue(c18720257.matval)
 	c:RegisterEffect(e2)
@@ -23,27 +24,10 @@ function c18720257.initial_effect(c)
 	e3:SetCategory(CATEGORY_SUMMON)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_FZONE)
-	e3:SetCountLimit(1,18720259)
+	e3:SetCountLimit(1,18720257+o*2)
 	e3:SetTarget(c18720257.sumtg)
 	e3:SetOperation(c18720257.sumop)
 	c:RegisterEffect(e3)
-	if not aux.link_mat_hack_check then
-		aux.link_mat_hack_check=true
-		_IsCanBeLinkMaterial=Card.IsCanBeLinkMaterial
-		function Card.IsCanBeLinkMaterial(c,lc)
-			if c:GetOriginalType()&TYPE_MONSTER~=0 then
-				return _IsCanBeLinkMaterial(c,lc)
-			end
-			if c:IsForbidden() then return false end
-			local le={c:IsHasEffect(EFFECT_CANNOT_BE_LINK_MATERIAL)}
-			for _,te in pairs(le) do
-				local tf=te:GetValue()
-				local tval=tf(te,lc)
-				if tval then return false end
-			end
-			return true
-		end
-	end
 end
 function c18720257.tffilter(c,tp)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP) and not c:IsType(TYPE_FIELD) and c:IsSetCard(0x109)
