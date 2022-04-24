@@ -30,7 +30,14 @@ function c11738489.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c11738489.lcheck(g)
-	return g:GetClassCount(Card.GetLinkAttribute)==g:GetCount()
+	local att=0
+	local tc=g:GetFirst()
+	while tc do
+		if bit.band(att,tc:GetLinkAttribute())~=0 then return false end
+		att=bit.bor(att,tc:GetLinkAttribute())
+		tc=g:GetNext()
+	end
+	return true
 end
 function c11738489.matcheck(e,c)
 	local ct=c:GetMaterialCount()

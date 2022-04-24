@@ -23,8 +23,11 @@ function c64599569.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 c64599569.material_setcode=0x1093
+function c64599569.cyber_fusion_check_filter(c,g)
+	return c:IsFusionCode(70095154) and not g:IsExists(aux.NOT(Card.IsRace),1,c,RACE_MACHINE)
+end
 function c64599569.cyber_fusion_check(tp,sg,fc)
-	return sg:IsExists(Card.IsFusionCode,1,nil,70095154)
+	return sg:IsExists(c64599569.cyber_fusion_check_filter,1,nil,sg)
 end
 function c64599569.sucop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

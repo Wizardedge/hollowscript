@@ -1,4 +1,4 @@
---CNo.5 亡朧龍 カオス・キマイラ・ドラゴン
+--CNo.5 亡朧龍カオス・キマイラ・ドラゴン
 function c69757518.initial_effect(c)
 	--xyz summon
 	aux.AddXyzProcedure(c,nil,6,3,nil,nil,99)
@@ -60,27 +60,30 @@ function c69757518.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.PayLPCost(tp,math.floor(Duel.GetLP(tp)/2))
 end
-function c69757518.tdfilter(c)
-	return c:IsAbleToDeck() or c:IsCanOverlay()
-end
 function c69757518.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
+	local g=Duel.GetMatchingGroup(Card.IsCanBeEffectTarget,tp,LOCATION_GRAVE,LOCATION_GRAVE,nil,e)
 	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ)
-		and Duel.IsExistingTarget(c69757518.tdfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,2,nil) end
+		and g:CheckSubGroup(aux.gffcheck,2,2,Card.IsAbleToDeck,nil,Card.IsCanOverlay,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local g=Duel.SelectTarget(tp,c69757518.tdfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,2,2,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,0,0)
-	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,2,0,0)
+	local sg=g:SelectSubGroup(tp,aux.gffcheck,false,2,2,Card.IsAbleToDeck,nil,Card.IsCanOverlay,nil)
+	Duel.SetTargetCard(sg)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,sg,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,sg,2,0,0)
+end
+function c69757518.tdfilter(c,g)
+	return c:IsAbleToDeck() and g:IsExists(Card.IsCanOverlay,1,c)
 end
 function c69757518.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
 	if sg:GetCount()>1 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-		local sg1=sg:Select(tp,1,1,nil)
+		local sg1=sg:FilterSelect(tp,c69757518.tdfilter,1,1,nil,sg)
+		if sg1:GetCount()==0 then sg1:FilterSelect(tp,Card.IsAbleToDeck,1,1,nil) end
 		local c=e:GetHandler()
-		if Duel.SendtoDeck(sg1,nil,SEQ_DECKTOP,REASON_EFFECT)~=0 and c:IsRelateToEffect(e) then
-			sg:Sub(sg1)
+		sg:Sub(sg1)
+		if sg1:GetCount()>0 and Duel.SendtoDeck(sg1,nil,SEQ_DECKTOP,REASON_EFFECT)~=0 and c:IsRelateToEffect(e) and sg:IsExists(Card.IsCanOverlay,1,nil) then
 			Duel.Overlay(c,sg)
 		end
 	end

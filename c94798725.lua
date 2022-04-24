@@ -66,8 +66,10 @@ function c94798725.effop(e,tp,eg,ep,ev,re,r,rp)
 	if chk2 and c:IsRelateToEffect(e) then
 		Duel.BreakEffect()
 		local e1=Effect.CreateEffect(c)
+		e1:SetDescription(aux.Stringid(94798725,2))
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DIRECT_ATTACK)
+		e1:SetProperty(EFFECT_FLAG_CLIENT_HINT) 
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		c:RegisterEffect(e1)
 	end
