@@ -45,7 +45,8 @@ function c68941332.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c68941332.rfilter(c,tp)
-	return Duel.GetMZoneCount(tp,c)>0 and (c:IsControler(tp) or c:IsFaceup()) and (c:IsRace(RACE_PLANT) or c:IsHasEffect(101109066))
+	return Duel.GetMZoneCount(tp,c)>0 and (c:IsControler(tp) or c:IsFaceup())
+		and (c:IsRace(RACE_PLANT) or c:IsHasEffect(76869711))
 		and Duel.IsExistingTarget(c68941332.filter,tp,0,LOCATION_MZONE,1,c)
 end
 function c68941332.cost(e,tp,eg,ep,ev,re,r,rp,chk)

@@ -33,7 +33,7 @@ function c39890958.initial_effect(c)
 	e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e5:SetCode(EVENT_SUMMON_SUCCESS)
-	e5:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
+	e5:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e5:SetTarget(c39890958.sumtg)
 	e5:SetOperation(c39890958.sumop)
 	c:RegisterEffect(e5)
@@ -66,7 +66,7 @@ end
 function c39890958.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:GetFlagEffect(39890958)==0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,true,false) end
+		and c:GetEquipTarget() and c:IsCanBeSpecialSummoned(e,0,tp,true,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 	c:RegisterFlagEffect(39890958,RESET_EVENT+0x7e0000+RESET_PHASE+PHASE_END,0,1)
 end
