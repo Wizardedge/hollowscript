@@ -26,9 +26,10 @@ function c66171432.filter(c,e,tp)
 end
 function c66171432.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanRemove(tp)
+		and Duel.IsPlayerCanSpecialSummon(tp)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummon(tp) and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=3 end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,0,tp,LOCATION_DECK)
+		and not Duel.IsPlayerAffectedByEffect(tp,63060238)
+		and Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>2 end
 end
 function c66171432.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -81,18 +82,16 @@ function c66171432.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function c66171432.spcfilter(c,tp)
-	return Duel.GetMZoneCount(tp,c)>0
-end
 function c66171432.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToRemoveAsCost()
-		and Duel.CheckReleaseGroup(tp,c66171432.spcfilter,1,nil,tp) end
+		and Duel.CheckReleaseGroup(tp,nil,1,nil) end
 	Duel.Remove(e:GetHandler(),POS_FACEUP,REASON_COST)
-	local g=Duel.SelectReleaseGroup(tp,c66171432.spcfilter,1,1,nil,tp)
+	local g=Duel.SelectReleaseGroup(tp,nil,1,1,nil)
 	Duel.Release(g,REASON_COST)
 end
 function c66171432.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c66171432.filter,tp,LOCATION_HAND,0,1,nil,e,tp) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
+		and Duel.IsExistingMatchingCard(c66171432.filter,tp,LOCATION_HAND,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end
 function c66171432.spop(e,tp,eg,ep,ev,re,r,rp)
