@@ -38,15 +38,24 @@ function c19605133.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c19605133.atcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsReleasable() end
-	Duel.Release(e:GetHandler(),REASON_COST)
+	local fe=Duel.IsPlayerAffectedByEffect(tp,101110021)
+	local b1=fe and Duel.IsPlayerCanDiscardDeckAsCost(tp,2)
+	local b2=e:GetHandler():IsReleasable()
+	if chk==0 then return b1 or b2 end
+	if b1 and (not b2 or Duel.SelectYesNo(tp,aux.Stringid(101110021,1))) then
+		Duel.Hint(HINT_CARD,0,101110021)
+		fe:UseCountLimit(tp)
+		Duel.DiscardDeck(tp,2,REASON_COST)
+	else
+		Duel.Release(e:GetHandler(),REASON_COST)
+	end
 end
 function c19605133.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0x2a)
 end
 function c19605133.attg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c19605133.filter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c19605133.filter,tp,LOCATION_MZONE,0,1,e:GetHandler()) end
+	if chk==0 then return (Duel.IsExistingTarget(c19605133.filter,tp,LOCATION_MZONE,0,1,e:GetHandler()) or (Duel.IsExistingTarget(c19605133.filter,tp,LOCATION_MZONE,0,1,nil) and Duel.IsPlayerAffectedByEffect(tp,101110021))) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	local g=Duel.SelectTarget(tp,c19605133.filter,tp,LOCATION_MZONE,0,1,1,nil)
 end
