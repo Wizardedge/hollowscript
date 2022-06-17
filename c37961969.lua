@@ -15,7 +15,7 @@ function c37961969.initial_effect(c)
 	--fusion
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(37961969,1))
-	e2:SetCategory(CATEGORY_TODECK+CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON+CATEGORY_GRAVE_ACTION)
+	e2:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON+CATEGORY_GRAVE_ACTION)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetCountLimit(1,37961970)
@@ -69,12 +69,13 @@ function c37961969.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		end
 		return res
 	end
+	e:GetHandler():RegisterFlagEffect(99456344,RESET_EVENT+RESETS_STANDARD+RESET_CHAIN,0,1)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function c37961969.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local chkf=tp
-	if not c:IsRelateToEffect(e) or c:IsImmuneToEffect(e) then return end
+	if not c:IsRelateToEffect(e) or c:GetFlagEffect(99456344)==0 or c:IsImmuneToEffect(e) then return end
 	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(c37961969.filter0),tp,LOCATION_HAND+LOCATION_MZONE+LOCATION_GRAVE,0,nil,e)
 	local sg1=Duel.GetMatchingGroup(c37961969.filter1,tp,LOCATION_EXTRA,0,nil,e,tp,mg,nil,chkf)
 	local mg2=nil

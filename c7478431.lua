@@ -27,7 +27,7 @@ function c7478431.discost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local b1=fe and Duel.IsPlayerCanDiscardDeckAsCost(tp,2)
 	local b2=c:IsReleasable() and not c:IsStatus(STATUS_BATTLE_DESTROYED) and Duel.CheckReleaseGroup(tp,c7478431.cfilter,1,c)
 	if chk==0 then return b1 or b2 end
-	if b1 and (not b2 or Duel.SelectYesNo(tp,aux.Stringid(101110021,1))) and Duel.GetMZoneCount(tp)>0 then
+	if b1 and (not b2 or Duel.SelectYesNo(tp,fe:GetDescription())) then
 		Duel.Hint(HINT_CARD,0,101110021)
 		fe:UseCountLimit(tp)
 		Duel.DiscardDeck(tp,2,REASON_COST)
