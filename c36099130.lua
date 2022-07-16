@@ -46,9 +46,8 @@ function c36099130.eqop(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
 		local g=Duel.SelectMatchingCard(tp,c36099130.eqfilter,tp,LOCATION_EXTRA,0,1,1,nil,tp)
-		if g:GetCount()==0 then return end
 		local sc=g:GetFirst()
-		if not Duel.Equip(tp,sc,tc) then return end
+		if not sc or not Duel.Equip(tp,sc,tc) then return end
 		--equip limit
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
